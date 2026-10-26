@@ -181,9 +181,9 @@ function renderTopToolbar() {
   return `
     <div class="proto-top-bar">
       <div class="proto-brand">
-        <img src="/images/logo.jpg" alt="VeggiFresh" class="proto-brand-logo" />
+        <img src="/images/logo.jpg" alt="FreshCart" class="proto-brand-logo" />
         <div>
-          <div class="proto-brand-title">VeggiFresh</div>
+          <div class="proto-brand-title">FreshCart</div>
           <div class="proto-brand-subtitle">${t('tagline')}</div>
         </div>
       </div>
@@ -287,7 +287,7 @@ function renderConsumerHeader() {
 
       <div class="header-greeting-row">
         <div class="greeting-text">
-          <div class="veggi-brand-pill">🥦 VeggiFresh • 100% Farm Fresh</div>
+          <div class="veggi-brand-pill">🥦 FreshCart • 100% Farm Fresh</div>
           <h1>${state.currentUser ? (state.lang === 'en' ? `Namaste, ${state.currentUser.name.split(' ')[0]}` : `नमस्ते, ${state.currentUser.name.split(' ')[0]} जी`) : (state.lang === 'en' ? 'Namaste, Guest' : 'नमस्ते, अतिथि')}</h1>
           <div class="greeting-tagline">${t('taglineSub')}</div>
         </div>
@@ -311,7 +311,7 @@ function renderConsumerHeader() {
   `;
 }
 
-// Render VeggiFresh Flash Harvest Promo Slider
+// Render FreshCart Flash Harvest Promo Slider
 function renderVeggiPromoSlider() {
   return `
     <div class="veggi-promo-slider">
@@ -322,7 +322,7 @@ function renderVeggiPromoSlider() {
           <div class="promo-card-desc">${state.lang === 'en' ? 'Zero cold storage · Picked at 5:30 AM today' : 'बिना कोल्ड स्टोरेज · सुबह 5:30 बजे ताज़ी कटी'}</div>
         </div>
         <div class="promo-card-bottom">
-          <span>${state.lang === 'en' ? 'Use Code:' : 'कोड:'} <strong class="promo-code-badge">VEGGI35</strong></span>
+          <span>${state.lang === 'en' ? 'Use Code:' : 'कोड:'} <strong class="promo-code-badge">FRESH35</strong></span>
           <span>${state.lang === 'en' ? 'Claim Deal ➔' : 'ऑफ़र लें ➔'}</span>
         </div>
       </div>
@@ -2493,7 +2493,7 @@ function bindEvents() {
     card.addEventListener('click', () => {
       const promoType = card.dataset.promo;
       if (promoType === 'flash') {
-        showToast(state.lang === 'en' ? '🎟️ Promo VEGGI35 copied! 35% discount applied at checkout.' : '🎟️ प्रोमो VEGGI35 लागू! 35% छूट चेकआउट पर मिलेगी।');
+        showToast(state.lang === 'en' ? '🎟️ Promo FRESH35 copied! 35% discount applied at checkout.' : '🎟️ प्रोमो FRESH35 लागू! 35% छूट चेकआउट पर मिलेगी।');
       } else if (promoType === 'express') {
         showToast(state.lang === 'en' ? '⚡ 15-25 Mins Express Courier active for your location!' : '⚡ 15-25 मिनट एक्सप्रेस कोरियर आपके पते पर सक्रिय है!');
       } else {
