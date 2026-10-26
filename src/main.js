@@ -247,10 +247,10 @@ function renderTopToolbar() {
 function renderConsumerHeader() {
   return `
     <header class="consumer-header">
-      <!-- VeggiFresh Express Delivery Chip -->
+      <!-- Farm-to-Door Morning Delivery Chip -->
       <div class="veggi-delivery-chip">
         <span class="veggi-pulse-dot"></span>
-        <span>⚡ 15-25 MINS EXPRESS</span>
+        <span>🌅 ${state.lang === 'en' ? 'MORNING HARVEST · 7:00 AM – 9:00 AM' : 'सुबह की ताज़ा कटाई · 7:00 AM – 9:00 AM'}</span>
       </div>
 
       <div class="header-top-row">
@@ -327,15 +327,15 @@ function renderVeggiPromoSlider() {
         </div>
       </div>
 
-      <div class="veggi-promo-card amber" data-promo="express">
+      <div class="veggi-promo-card amber" data-promo="slots">
         <div>
-          <span class="promo-card-tag">⚡ ${state.lang === 'en' ? 'ULTRA EXPRESS' : 'अल्ट्रा एक्सप्रेस'}</span>
-          <div class="promo-card-title">${state.lang === 'en' ? '15-25 Mins Free Delivery' : '15-25 मिनट में मुफ्त डिलीवरी'}</div>
-          <div class="promo-card-desc">${state.lang === 'en' ? 'On all vegetable orders above ₹149' : '₹149 से ऊपर के सभी ऑर्डर पर'}</div>
+          <span class="promo-card-tag">🌅 ${state.lang === 'en' ? 'MORNING SLOTS' : 'सुबह के स्लॉट'}</span>
+          <div class="promo-card-title">${state.lang === 'en' ? 'Picked at Dawn · Delivered by 9 AM' : 'सुबह की कटाई · 9 AM तक घर पर'}</div>
+          <div class="promo-card-desc">${state.lang === 'en' ? 'Free farm delivery on orders above ₹149' : '₹149 से ऊपर के ऑर्डर पर फ्री डिलीवरी'}</div>
         </div>
         <div class="promo-card-bottom">
-          <span>${state.lang === 'en' ? 'Eco-friendly EV Courier' : 'पर्यावरण-हितैषी ईवी'}</span>
-          <span>${state.lang === 'en' ? 'Fast Slots ➔' : 'स्लॉट देखें ➔'}</span>
+          <span>${state.lang === 'en' ? '7:00 AM – 9:00 AM Slot' : '7:00 AM – 9:00 AM स्लॉट'}</span>
+          <span>${state.lang === 'en' ? 'Select Slot ➔' : 'स्लॉट चुनें ➔'}</span>
         </div>
       </div>
 
@@ -2494,8 +2494,8 @@ function bindEvents() {
       const promoType = card.dataset.promo;
       if (promoType === 'flash') {
         showToast(state.lang === 'en' ? '🎟️ Promo FRESH35 copied! 35% discount applied at checkout.' : '🎟️ प्रोमो FRESH35 लागू! 35% छूट चेकआउट पर मिलेगी।');
-      } else if (promoType === 'express') {
-        showToast(state.lang === 'en' ? '⚡ 15-25 Mins Express Courier active for your location!' : '⚡ 15-25 मिनट एक्सप्रेस कोरियर आपके पते पर सक्रिय है!');
+      } else if (promoType === 'slots') {
+        showToast(state.lang === 'en' ? '🌅 Morning harvest slot (7:00 AM – 9:00 AM) active for your order!' : '🌅 सुबह 7:00 – 9:00 AM का स्लॉट आपके ऑर्डर के लिए सक्रिय है!');
       } else {
         showToast(state.lang === 'en' ? '🛡️ 100% MSP paid directly to verified farmers via UPI.' : '🛡️ किसानों को 100% सीधा भुगतान यूपीआई द्वारा!');
       }

@@ -360,7 +360,7 @@ export const INITIAL_ORDERS = [
 export const I18N = {
   en: {
     appTitle: 'FreshCart',
-    tagline: 'Farm-Fresh Vegetables in 15-25 Mins',
+    tagline: 'Farm-to-Door Fresh Vegetables · Morning Harvest',
     taglineSub: 'Picked fresh at dawn from verified local organic farms',
     location: 'Deliver to: Sunrise Enclave, Sector 14',
     greeting: 'Namaste, Priya',
@@ -468,7 +468,7 @@ export const I18N = {
   },
   hi: {
     appTitle: 'फ्रेशकार्ट (FreshCart)',
-    tagline: 'खेत से सीधे 15-25 मिनट में ताज़ी डिलीवरी',
+    tagline: 'खेत से सीधे सुबह की ताज़ा कटाई आपके द्वार',
     taglineSub: 'आज सुबह खेत से तोड़ी गई 100% ताज़ी व प्रमाणित सब्ज़ियाँ',
     location: 'डिलीवरी पता: सनराइज एन्क्लेव, सेक्टर 14',
     greeting: 'नमस्ते, प्रिया जी',
