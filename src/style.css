@@ -1,29 +1,29 @@
-/* FreshCart Design System - Farm-to-Door Vegetable Delivery App */
+/* VeggiFresh Design System - Farm-to-Door Ultra-Fresh Vegetable Delivery App */
 :root {
-  /* Freshcart Color Palette from UI/UX Document */
-  --forest: #1F3B2C;
-  --forest-dark: #12251A;
-  --forest-light: #2c523e;
-  --forest-surface: rgba(31, 59, 44, 0.08);
-  --forest-tint: #eaf1ed;
-  --harvest-orange: #E08A2E;
-  --harvest-orange-hover: #c97621;
-  --harvest-soft: #F4D9A8;
-  --harvest-light: #fef7ec;
-  --tomato: #C1432B;
-  --soil: #8A5A34;
-  --soil-light: #f4ece4;
-  --paper: #F5F2E6;
-  --paper-card: #FFFFFF;
-  --ink: #20201A;
-  --ink-soft: #6B6858;
-  --ink-muted: #9C9889;
-  --line: #E4DECB;
-  --line-strong: #d5cbaf;
+  /* VeggiFresh Color Palette */
+  --forest: #059669; /* Lush Emerald Green */
+  --forest-dark: #064E3B; /* Deep Forest */
+  --forest-light: #10B981; /* Mint Leaf */
+  --forest-surface: rgba(16, 185, 129, 0.08);
+  --forest-tint: #ECFDF5; /* Ultra-refreshing mint surface */
+  --harvest-orange: #F59E0B; /* Warm Citrus Amber */
+  --harvest-orange-hover: #D97706;
+  --harvest-soft: #FEF3C7;
+  --harvest-light: #FFFBEB;
+  --tomato: #EF4444; /* Crisp Tomato Red */
+  --soil: #92400E;
+  --soil-light: #FEF3C7;
+  --paper: #F8FAF8; /* Pure fresh airy backdrop */
+  --paper-card: #FFFFFF; /* High-contrast crisp white cards */
+  --ink: #0F172A; /* Slate black */
+  --ink-soft: #475569; /* Balanced slate */
+  --ink-muted: #94A3B8;
+  --line: #E2E8F0; /* Clean border dividers */
+  --line-strong: #CBD5E1;
 
   /* Typography */
-  --font-serif: 'Source Serif 4', Georgia, serif;
-  --font-sans: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-stamp: 'Barlow Condensed', sans-serif;
 
   /* Layout and Sizing */
@@ -32,10 +32,10 @@
   --radius-lg: 18px;
   --radius-xl: 24px;
   --radius-full: 9999px;
-  --shadow-sm: 0 2px 6px rgba(18, 37, 26, 0.05);
-  --shadow-md: 0 8px 20px rgba(18, 37, 26, 0.08);
-  --shadow-lg: 0 16px 36px rgba(18, 37, 26, 0.12);
-  --shadow-device: 0 20px 50px -10px rgba(18, 37, 26, 0.3), 0 0 0 1px rgba(18, 37, 26, 0.12);
+  --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 8px 20px rgba(15, 23, 42, 0.07);
+  --shadow-lg: 0 16px 36px rgba(15, 23, 42, 0.1);
+  --shadow-device: 0 25px 60px -15px rgba(6, 78, 59, 0.25), 0 0 0 1px rgba(6, 78, 59, 0.08);
   --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -48,10 +48,10 @@
 
 body {
   font-family: var(--font-sans);
-  background: #ded6c6;
+  background: #E8EFEA;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(31, 59, 44, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(224, 138, 46, 0.06) 0%, transparent 40%);
+    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 45%);
   color: var(--ink);
   height: 100vh;
   display: flex;
@@ -358,17 +358,49 @@ body {
   box-shadow: 0 2px 4px rgba(193, 67, 43, 0.3);
 }
 
-/* Consumer App Header */
+/* VeggiFresh Consumer App Header */
 .consumer-header {
-  background: var(--forest);
+  background: linear-gradient(180deg, #064E3B 0%, #065F46 72%, #059669 100%);
   color: #fff;
-  padding: 8px 18px 18px;
-  border-bottom-left-radius: 22px;
-  border-bottom-right-radius: 22px;
-  box-shadow: var(--shadow-md);
+  padding: 12px 18px 20px;
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 28px;
+  box-shadow: 0 12px 28px rgba(6, 78, 59, 0.22);
   position: relative;
   z-index: 10;
   flex-shrink: 0;
+}
+
+.veggi-delivery-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: #FEF3C7;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+
+.veggi-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34D399;
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+  animation: pulseGreen 1.8s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.8); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
 }
 
 .header-top-row {
@@ -386,30 +418,32 @@ body {
 }
 
 .header-location-icon {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.18);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--harvest-soft);
+  color: #FEF3C7;
+  flex-shrink: 0;
 }
 
 .header-location-text .location-label {
-  font-size: 10.5px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  opacity: 0.8;
-  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: #A7F3D0;
+  font-weight: 700;
 }
 
 .header-location-text .location-address {
-  font-size: 12.5px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 4px;
+  color: #FFFFFF;
 }
 
 .header-greeting-row {
@@ -419,50 +453,69 @@ body {
   margin-bottom: 12px;
 }
 
+.veggi-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9.5px;
+  font-weight: 800;
+  background: rgba(254, 243, 199, 0.18);
+  border: 1px solid rgba(254, 243, 199, 0.35);
+  color: #FEF3C7;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
 .greeting-text h1 {
   font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 21px;
+  font-weight: 800;
   line-height: 1.2;
+  letter-spacing: -0.3px;
 }
 
 .greeting-tagline {
-  font-size: 11.5px;
-  opacity: 0.85;
+  font-size: 12px;
+  color: #D1FAE5;
   margin-top: 2px;
+  font-weight: 500;
 }
 
 .lang-switch-btn {
   background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   color: #fff;
   font-size: 11px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: var(--transition);
 }
 
 .lang-switch-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.32);
 }
 
 /* Search Box */
 .header-search-bar {
-  background: #fff;
+  background: #FFFFFF;
   border-radius: var(--radius-full);
-  padding: 8px 14px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
 }
 
 .header-search-bar svg {
   color: var(--forest);
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
 }
 
 .header-search-bar input {
@@ -470,13 +523,110 @@ body {
   background: transparent;
   width: 100%;
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--ink);
   outline: none;
 }
 
 .header-search-bar input::placeholder {
   color: var(--ink-muted);
+}
+
+/* VeggiFresh Flash Harvest Promo Slider */
+.veggi-promo-slider {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px 6px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.veggi-promo-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.veggi-promo-card {
+  flex: 0 0 270px;
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: start;
+  box-shadow: 0 8px 20px rgba(6, 78, 59, 0.14);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 115px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.veggi-promo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(6, 78, 59, 0.22);
+}
+
+.veggi-promo-card.emerald {
+  background: linear-gradient(135deg, #064E3B 0%, #059669 100%);
+}
+
+.veggi-promo-card.amber {
+  background: linear-gradient(135deg, #92400E 0%, #F59E0B 100%);
+}
+
+.veggi-promo-card.teal {
+  background: linear-gradient(135deg, #0F766E 0%, #06B6D4 100%);
+}
+
+.promo-card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(4px);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  align-self: flex-start;
+}
+
+.promo-card-title {
+  font-size: 15px;
+  font-weight: 800;
+  margin-top: 6px;
+  line-height: 1.25;
+}
+
+.promo-card-desc {
+  font-size: 11px;
+  opacity: 0.92;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.promo-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.promo-code-badge {
+  background: #FFFFFF;
+  color: var(--forest-dark);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 /* Freshness Guarantee Pill */
@@ -633,7 +783,74 @@ body {
   border-radius: var(--radius-full);
 }
 
-/* Category Filter Pills */
+/* VeggiFresh Circular Category Rail */
+.veggi-categories-rail {
+  display: flex;
+  gap: 12px;
+  padding: 8px 16px 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.veggi-categories-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.veggi-cat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+.veggi-cat-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1.5px solid var(--line);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.veggi-cat-item:hover .veggi-cat-circle {
+  transform: translateY(-2px);
+  border-color: var(--forest);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+}
+
+.veggi-cat-item.active .veggi-cat-circle {
+  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+  border-color: #059669;
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.35);
+  transform: scale(1.05);
+}
+
+.veggi-cat-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.veggi-cat-item.active .veggi-cat-title {
+  color: var(--forest-dark);
+  font-weight: 800;
+}
+
+/* Fallback Category Filter Pills */
 .category-filter-row {
   display: flex;
   gap: 8px;
@@ -647,7 +864,7 @@ body {
 
 .cat-pill {
   flex-shrink: 0;
-  padding: 5px 12px;
+  padding: 6px 14px;
   border-radius: var(--radius-full);
   background: var(--paper-card);
   border: 1px solid var(--line);
@@ -667,23 +884,23 @@ body {
   background: var(--forest);
   color: #fff;
   border-color: var(--forest);
-  box-shadow: 0 2px 8px rgba(31, 59, 44, 0.2);
+  box-shadow: 0 3px 10px rgba(5, 150, 105, 0.25);
 }
 
 /* Vegetable Products Grid */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 4px 16px 20px;
+  gap: 12px;
+  padding: 4px 16px 24px;
 }
 
 .product-card {
   background: var(--paper-card);
-  border: 1px solid var(--line);
+  border: 1px solid rgba(226, 232, 240, 0.9);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
   display: flex;
   flex-direction: column;
   transition: var(--transition);
@@ -692,8 +909,8 @@ body {
 }
 
 .product-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(5, 150, 105, 0.14);
   border-color: var(--forest-light);
 }
 
@@ -701,7 +918,7 @@ body {
   position: relative;
   width: 100%;
   aspect-ratio: 1;
-  background: var(--harvest-soft);
+  background: #F1F5F9;
   overflow: hidden;
 }
 
@@ -713,42 +930,62 @@ body {
 }
 
 .product-card:hover .product-card-thumb {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
-/* Freshness Badge (Crate Label Style) */
+/* Discount Badge */
+.discount-pill {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  background: #EF4444;
+  color: #FFFFFF;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
+  z-index: 3;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Freshness Badge (VeggiFresh Harvest Stamp) */
 .freshness-stamp {
   position: absolute;
-  top: 6px;
-  left: 6px;
+  top: 7px;
+  right: 7px;
   font-family: var(--font-stamp);
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.4px;
   text-transform: uppercase;
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   z-index: 2;
 }
 
 .freshness-stamp.today {
-  background: var(--forest);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(6, 78, 59, 0.88);
+  backdrop-filter: blur(4px);
+  color: #D1FAE5;
+  border: 1px solid rgba(52, 211, 153, 0.4);
 }
 
 .freshness-stamp.yesterday {
-  background: var(--soil);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(146, 64, 14, 0.88);
+  backdrop-filter: blur(4px);
+  color: #FEF3C7;
+  border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
 .product-card-body {
-  padding: 8px 10px 10px;
+  padding: 10px 11px 12px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -756,11 +993,11 @@ body {
 }
 
 .product-title {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 13.5px;
+  font-weight: 700;
   color: var(--ink);
-  line-height: 1.25;
-  margin-bottom: 2px;
+  line-height: 1.28;
+  margin-bottom: 3px;
 }
 
 .product-farmer-name {
@@ -770,6 +1007,20 @@ body {
   align-items: center;
   gap: 3px;
   margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.product-savings-badge {
+  font-size: 9px;
+  font-weight: 800;
+  color: #065F46;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  display: inline-block;
+  width: fit-content;
 }
 
 .product-card-footer {
@@ -777,8 +1028,8 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
-  padding-top: 6px;
-  border-top: 1px dashed var(--line);
+  padding-top: 7px;
+  border-top: 1px dashed #E2E8F0;
 }
 
 .product-price-box {
@@ -786,26 +1037,40 @@ body {
   flex-direction: column;
 }
 
+.product-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
 .product-price {
-  font-family: var(--font-serif);
-  font-size: 15px;
-  font-weight: 700;
+  font-family: var(--font-sans);
+  font-size: 15.5px;
+  font-weight: 800;
   color: var(--forest-dark);
+}
+
+.product-mandi-strike {
+  font-size: 11px;
+  text-decoration: line-through;
+  color: var(--ink-muted);
+  font-weight: 500;
 }
 
 .product-unit {
   font-size: 9.5px;
   color: var(--ink-muted);
+  font-weight: 600;
 }
 
 /* Stepper / Add Button */
 .btn-add-item {
-  background: #fff;
+  background: #ECFDF5;
   border: 1.5px solid var(--forest);
   color: var(--forest);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 4px 12px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: var(--transition);
@@ -813,29 +1078,32 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 30px;
+  letter-spacing: 0.2px;
 }
 
 .btn-add-item:hover, .btn-add-item:active {
   background: var(--forest);
   color: #fff;
+  box-shadow: 0 3px 8px rgba(5, 150, 105, 0.3);
 }
 
 .mini-stepper {
   display: flex;
   align-items: center;
-  background: var(--forest);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
   border-radius: var(--radius-sm);
   color: #fff;
   overflow: hidden;
   height: 30px;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
 }
 
 .mini-stepper button {
   background: none;
   border: none;
   color: #fff;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   width: 26px;
   height: 100%;
   cursor: pointer;
@@ -846,34 +1114,35 @@ body {
 }
 
 .mini-stepper button:active {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .mini-stepper span {
-  font-size: 11.5px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 800;
   padding: 0 3px;
-  min-width: 16px;
+  min-width: 18px;
   text-align: center;
 }
 
 /* Floating Cart Bar */
 .floating-basket-bar {
   position: absolute;
-  bottom: 72px;
+  bottom: 74px;
   left: 14px;
   right: 14px;
-  background: var(--forest-dark);
+  background: linear-gradient(135deg, #064E3B 0%, #059669 100%);
   color: #fff;
   border-radius: var(--radius-lg);
-  padding: 10px 14px;
+  padding: 11px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 10px 25px rgba(18, 37, 26, 0.35);
+  box-shadow: 0 12px 28px rgba(6, 78, 59, 0.38);
   cursor: pointer;
   z-index: 35;
   animation: slideUpBar 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 @keyframes slideUpBar {

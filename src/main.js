@@ -181,9 +181,9 @@ function renderTopToolbar() {
   return `
     <div class="proto-top-bar">
       <div class="proto-brand">
-        <img src="/images/logo.jpg" alt="Freshcart" class="proto-brand-logo" />
+        <img src="/images/logo.jpg" alt="VeggiFresh" class="proto-brand-logo" />
         <div>
-          <div class="proto-brand-title">Freshcart</div>
+          <div class="proto-brand-title">VeggiFresh</div>
           <div class="proto-brand-subtitle">${t('tagline')}</div>
         </div>
       </div>
@@ -247,13 +247,19 @@ function renderTopToolbar() {
 function renderConsumerHeader() {
   return `
     <header class="consumer-header">
+      <!-- VeggiFresh Express Delivery Chip -->
+      <div class="veggi-delivery-chip">
+        <span class="veggi-pulse-dot"></span>
+        <span>⚡ 15-25 MINS EXPRESS</span>
+      </div>
+
       <div class="header-top-row">
         <div class="header-location-box" id="header-loc-trigger">
           <div class="header-location-icon">
-            ${icon('mapPin', 16)}
+            ${icon('mapPin', 18)}
           </div>
           <div class="header-location-text">
-            <div class="location-label">Delivering to</div>
+            <div class="location-label">${state.lang === 'en' ? 'Delivering to' : 'डिलीवरी पता'}</div>
             <div class="location-address">
               ${state.currentUser?.address ? state.currentUser.address.split(',')[0] : 'Sunrise Enclave, Sec 14'} ${icon('chevronDown', 13)}
             </div>
@@ -281,6 +287,7 @@ function renderConsumerHeader() {
 
       <div class="header-greeting-row">
         <div class="greeting-text">
+          <div class="veggi-brand-pill">🥦 VeggiFresh • 100% Farm Fresh</div>
           <h1>${state.currentUser ? (state.lang === 'en' ? `Namaste, ${state.currentUser.name.split(' ')[0]}` : `नमस्ते, ${state.currentUser.name.split(' ')[0]} जी`) : (state.lang === 'en' ? 'Namaste, Guest' : 'नमस्ते, अतिथि')}</h1>
           <div class="greeting-tagline">${t('taglineSub')}</div>
         </div>
@@ -301,6 +308,49 @@ function renderConsumerHeader() {
         ` : ''}
       </div>
     </header>
+  `;
+}
+
+// Render VeggiFresh Flash Harvest Promo Slider
+function renderVeggiPromoSlider() {
+  return `
+    <div class="veggi-promo-slider">
+      <div class="veggi-promo-card emerald" data-promo="flash">
+        <div>
+          <span class="promo-card-tag">🌱 ${state.lang === 'en' ? 'HARVEST FLASH SALE' : 'सुबह की ताज़ा सेल'}</span>
+          <div class="promo-card-title">${state.lang === 'en' ? "Flat 35% OFF on Today's Harvest" : 'आज की ताज़ा कटाई पर 35% छूट'}</div>
+          <div class="promo-card-desc">${state.lang === 'en' ? 'Zero cold storage · Picked at 5:30 AM today' : 'बिना कोल्ड स्टोरेज · सुबह 5:30 बजे ताज़ी कटी'}</div>
+        </div>
+        <div class="promo-card-bottom">
+          <span>${state.lang === 'en' ? 'Use Code:' : 'कोड:'} <strong class="promo-code-badge">VEGGI35</strong></span>
+          <span>${state.lang === 'en' ? 'Claim Deal ➔' : 'ऑफ़र लें ➔'}</span>
+        </div>
+      </div>
+
+      <div class="veggi-promo-card amber" data-promo="express">
+        <div>
+          <span class="promo-card-tag">⚡ ${state.lang === 'en' ? 'ULTRA EXPRESS' : 'अल्ट्रा एक्सप्रेस'}</span>
+          <div class="promo-card-title">${state.lang === 'en' ? '15-25 Mins Free Delivery' : '15-25 मिनट में मुफ्त डिलीवरी'}</div>
+          <div class="promo-card-desc">${state.lang === 'en' ? 'On all vegetable orders above ₹149' : '₹149 से ऊपर के सभी ऑर्डर पर'}</div>
+        </div>
+        <div class="promo-card-bottom">
+          <span>${state.lang === 'en' ? 'Eco-friendly EV Courier' : 'पर्यावरण-हितैषी ईवी'}</span>
+          <span>${state.lang === 'en' ? 'Fast Slots ➔' : 'स्लॉट देखें ➔'}</span>
+        </div>
+      </div>
+
+      <div class="veggi-promo-card teal" data-promo="direct">
+        <div>
+          <span class="promo-card-tag">🛡️ ${state.lang === 'en' ? 'DIRECT TO FARMER' : 'सीधे किसान से'}</span>
+          <div class="promo-card-title">${state.lang === 'en' ? '100% Direct MSP Payout' : 'किसान को 100% सीधा भुगतान'}</div>
+          <div class="promo-card-desc">${state.lang === 'en' ? 'DPDP 2023 protected & bank penny-drop verified' : 'डीपीडीपी 2023 संरक्षित व बैंक सत्यापित'}</div>
+        </div>
+        <div class="promo-card-bottom">
+          <span>${state.lang === 'en' ? 'Zero Middlemen' : 'शून्य बिचौलिए'}</span>
+          <span>${state.lang === 'en' ? 'Explore Farms ➔' : 'किसान देखें ➔'}</span>
+        </div>
+      </div>
+    </div>
   `;
 }
 
@@ -353,24 +403,26 @@ function renderNearbyFarms() {
   `;
 }
 
-// Render Category Filter Pills
+// Render Circular VeggiFresh Category Quick Rail
 function renderCategoryPills() {
   const categories = [
-    { id: 'all', label: t('allCategories') },
-    { id: 'Leafy', label: t('leafy') },
-    { id: 'Nightshades', label: t('nightshades') },
-    { id: 'Roots', label: t('roots') },
-    { id: 'Gourds', label: t('gourds') }
+    { id: 'all', emoji: '🥦', label: t('allCategories') },
+    { id: 'Leafy', emoji: '🥬', label: t('leafy') },
+    { id: 'Nightshades', emoji: '🍅', label: t('nightshades') },
+    { id: 'Roots', emoji: '🥕', label: t('roots') },
+    { id: 'Gourds', emoji: '🥒', label: t('gourds') }
   ];
 
   return `
-    <div class="category-filter-row">
+    <div class="veggi-categories-rail">
       ${categories.map(c => `
         <button 
-          class="cat-pill ${state.selectedCategory === c.id ? 'active' : ''}" 
+          class="veggi-cat-item ${state.selectedCategory === c.id ? 'active' : ''}" 
           data-cat="${c.id}"
+          title="${c.label}"
         >
-          ${c.label}
+          <div class="veggi-cat-circle">${c.emoji}</div>
+          <span class="veggi-cat-title">${c.label}</span>
         </button>
       `).join('')}
     </div>
@@ -420,10 +472,13 @@ function renderProductsGrid() {
         const farmer = state.farmers.find(f => f.id === prod.farmerId) || state.farmers[0];
         const qtyInCart = state.cart[prod.id] || 0;
         const isToday = prod.freshness === 'today';
+        const mrp = Math.round(prod.price * 1.34);
+        const discountPct = Math.round(((mrp - prod.price) / mrp) * 100);
 
         return `
           <div class="product-card" data-product-id="${prod.id}">
             <div class="product-card-thumb-wrap">
+              <span class="discount-pill">${discountPct}% OFF</span>
               <img src="${prod.image}" alt="${prod.name}" class="product-card-thumb" loading="lazy" />
               <div class="freshness-stamp ${isToday ? 'today' : 'yesterday'}">
                 ${icon('clock', 11)} ${isToday ? t('pickedToday') : t('pickedYesterday')}
@@ -436,11 +491,17 @@ function renderProductsGrid() {
                 <div class="product-farmer-name">
                   🌾 ${state.lang === 'en' ? farmer.name : farmer.hindiName} · ${farmer.distance}
                 </div>
+                <span class="product-savings-badge">
+                  Save ₹${mrp - prod.price} vs Mandi
+                </span>
               </div>
 
               <div class="product-card-footer">
                 <div class="product-price-box">
-                  <span class="product-price">₹${prod.price}</span>
+                  <div class="product-price-row">
+                    <span class="product-price">₹${prod.price}</span>
+                    <span class="product-mandi-strike">₹${mrp}</span>
+                  </div>
                   <span class="product-unit">/${prod.unit}</span>
                 </div>
 
@@ -2158,6 +2219,8 @@ function renderApp() {
             ` : state.role === 'consumer' ? `
               ${state.currentTab === 'home' ? `
                 ${renderConsumerHeader()}
+                ${renderVeggiPromoSlider()}
+                ${renderCategoryPills()}
                 ${renderFreshnessRibbon()}
                 ${renderNearbyFarms()}
                 ${renderProductsGrid()}
@@ -2417,11 +2480,25 @@ function bindEvents() {
     renderApp();
   });
 
-  // Category Pills
-  document.querySelectorAll('.cat-pill[data-cat]').forEach(btn => {
+  // Category Pills & Circular Rail
+  document.querySelectorAll('[data-cat]').forEach(btn => {
     btn.addEventListener('click', () => {
       state.selectedCategory = btn.dataset.cat;
       renderApp();
+    });
+  });
+
+  // VeggiFresh Promo Card Clicks
+  document.querySelectorAll('[data-promo]').forEach(card => {
+    card.addEventListener('click', () => {
+      const promoType = card.dataset.promo;
+      if (promoType === 'flash') {
+        showToast(state.lang === 'en' ? '🎟️ Promo VEGGI35 copied! 35% discount applied at checkout.' : '🎟️ प्रोमो VEGGI35 लागू! 35% छूट चेकआउट पर मिलेगी।');
+      } else if (promoType === 'express') {
+        showToast(state.lang === 'en' ? '⚡ 15-25 Mins Express Courier active for your location!' : '⚡ 15-25 मिनट एक्सप्रेस कोरियर आपके पते पर सक्रिय है!');
+      } else {
+        showToast(state.lang === 'en' ? '🛡️ 100% MSP paid directly to verified farmers via UPI.' : '🛡️ किसानों को 100% सीधा भुगतान यूपीआई द्वारा!');
+      }
     });
   });
 

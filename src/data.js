@@ -359,9 +359,9 @@ export const INITIAL_ORDERS = [
 
 export const I18N = {
   en: {
-    appTitle: 'Freshcart',
-    tagline: 'Farm-to-Door Vegetable Delivery',
-    taglineSub: 'Picked fresh from verified local farmers within 24 hours',
+    appTitle: 'VeggiFresh',
+    tagline: 'Farm-Fresh Vegetables in 15-25 Mins',
+    taglineSub: 'Picked fresh at dawn from verified local organic farms',
     location: 'Deliver to: Sunrise Enclave, Sector 14',
     greeting: 'Namaste, Priya',
     searchPlaceholder: 'Search fresh spinach, tomatoes, farmer...',
@@ -467,9 +467,9 @@ export const I18N = {
     signOutBtn: 'Sign Out / Switch Account'
   },
   hi: {
-    appTitle: 'फ़्रेशकार्ट',
-    tagline: 'खेत से सीधे आपके दरवाज़े तक',
-    taglineSub: 'सत्यापित स्थानीय किसानों से 24 घंटे के भीतर ताज़ा तोड़ी गई सब्ज़ियाँ',
+    appTitle: 'वेजीफ्रेश (VeggiFresh)',
+    tagline: 'खेत से सीधे 15-25 मिनट में ताज़ी डिलीवरी',
+    taglineSub: 'आज सुबह खेत से तोड़ी गई 100% ताज़ी व प्रमाणित सब्ज़ियाँ',
     location: 'डिलीवरी पता: सनराइज एन्क्लेव, सेक्टर 14',
     greeting: 'नमस्ते, प्रिया जी',
     searchPlaceholder: 'पालक, देशी टमाटर या किसान खोजें...',
