@@ -35,13 +35,8 @@ const state = {
   currentUser: JSON.parse(JSON.stringify(INITIAL_USERS[0])), // Priya Sharma by default
   authMode: 'login', // 'login' | 'register'
   isPasswordVisible: false,
-  isGoogleModalOpen: false,
-  isGoogleLoading: false,
-  googleLoadingStep: '',
-  authReturnTab: 'home',
-  regRole: 'consumer', // 'consumer' | 'farmer'
-  rememberMe: true,
-  customGoogleInputOpen: false,
+  authPhone: '+91 98765 43210',
+  isOtpSent: false,
 
   // Cart: { productId: quantity }
   cart: {
@@ -108,7 +103,7 @@ function icon(name, size = 20, extraClass = '') {
     fileText: `<svg class="${extraClass}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>`,
     download: `<svg class="${extraClass}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>`,
     trendingUp: `<svg class="${extraClass}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`,
-    google: `<svg class="${extraClass}" width="${size}" height="${size}" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>`,
+    phoneCall: `<svg class="${extraClass}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
     mail: `<svg class="${extraClass}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
     eye: `<svg class="${extraClass}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`,
     eyeOff: `<svg class="${extraClass}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>`,
@@ -210,9 +205,9 @@ function renderTopToolbar() {
           🌐 ${state.lang === 'en' ? 'English' : 'हिंदी'}
         </button>
 
-        <!-- User Authentication & Google Status -->
+        <!-- User Authentication Status -->
         <button class="proto-user-btn" id="proto-auth-btn" title="Open Sign In / Login Page">
-          ${state.currentUser ? (state.currentUser.provider === 'google' ? icon('google', 14) : icon('user', 14)) + ' ' + state.currentUser.name.split(' ')[0] : icon('logIn', 14) + ' Sign In / Login'}
+          ${state.currentUser ? icon('user', 14) + ' ' + state.currentUser.name.split(' ')[0] : icon('logIn', 14) + ' Sign In'}
         </button>
 
         <!-- Device Size Toggle -->
@@ -272,7 +267,7 @@ function renderConsumerHeader() {
             ${state.currentUser ? `
               <img src="${state.currentUser.avatar}" alt="${state.currentUser.name}" class="header-user-avatar" />
               <span>${state.currentUser.name.split(' ')[0]}</span>
-              ${state.currentUser.provider === 'google' ? `<span class="google-dot" title="Signed in with Google"></span>` : ''}
+              
             ` : `
               ${icon('user', 14)}
               <span>${state.lang === 'en' ? 'Sign In' : 'लॉग इन'}</span>
@@ -927,21 +922,33 @@ function renderAuthScreen() {
         </button>
       </div>
 
-      <!-- Google 1-Click Sign-In (Official Branded Button) -->
-      <div>
-        <button class="btn-google-auth" id="btn-google-signin-action" type="button" title="Sign in with your verified Google account">
-          <span class="google-icon-wrapper">${icon('google', 20)}</span>
-          <span>${t('continueWithGoogle')}</span>
-          <span class="google-verified-tag">1-Tap Fast</span>
-        </button>
-        <div style="font-size:10.5px; color:var(--ink-soft); text-align:center; margin-top:5px;">
-          ${state.lang === 'en' ? 'Instant secure Google OAuth 2.0 · Verified ID' : 'त्वरित सुरक्षित Google OAuth 2.0 · सत्यापित पहचान'}
+      <!-- 1-Tap Fast Persona Switcher (PRD Target Users) -->
+      <div class="auth-demo-personas">
+        <div class="auth-demo-title">
+          ${icon('user', 13)} <span>${state.lang === 'en' ? '1-Tap Fast Switcher: Select Persona to Test' : '1-टैप त्वरित डेमो प्रोफाइल'}</span>
+        </div>
+        <div class="persona-chips-grid">
+          <button type="button" class="persona-card-btn ${state.currentUser?.id === 'usr-1' ? 'active' : ''}" data-switch-persona="usr-1" title="Urban Consumer - Gurugram">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" class="persona-avatar" alt="Priya" />
+            <div class="persona-name">Priya Sharma</div>
+            <span class="persona-role-tag consumer">${state.lang === 'en' ? 'Buyer (Consumer)' : 'उपभोक्ता'}</span>
+          </button>
+          <button type="button" class="persona-card-btn ${state.currentUser?.id === 'usr-3' ? 'active' : ''}" data-switch-persona="usr-3" title="Smallholder Farmer - Najafgarh">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&h=80&q=80" class="persona-avatar" alt="Ramesh" />
+            <div class="persona-name">Ramesh Patel</div>
+            <span class="persona-role-tag farmer">${state.lang === 'en' ? 'Farmer' : 'किसान'}</span>
+          </button>
+          <button type="button" class="persona-card-btn ${state.currentUser?.id === 'usr-2' ? 'active' : ''}" data-switch-persona="usr-2" title="Delivery Partner - Local Fleet">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&h=80&q=80" class="persona-avatar" alt="Aakash" />
+            <div class="persona-name">Dev / Aakash</div>
+            <span class="persona-role-tag rider">${state.lang === 'en' ? 'Delivery Fleet' : 'डिलीवरी'}</span>
+          </button>
         </div>
       </div>
 
       <!-- Divider -->
       <div class="auth-divider">
-        <span>${t('orContinueWith')}</span>
+        <span>${state.lang === 'en' ? 'or login with mobile number & OTP' : 'या मोबाइल नंबर और OTP से लॉगिन करें'}</span>
       </div>
 
       <!-- Form Card -->
@@ -1114,12 +1121,11 @@ function renderProfileScreen() {
         <div class="auth-header-card" style="margin-top:12px;">
           <div class="auth-brand-badge">${icon('shieldCheck', 12)} Freshcart Secure Access</div>
           <h2 class="auth-title">${state.lang === 'en' ? 'Sign In to Your Account' : 'अपने खाते में लॉग इन करें'}</h2>
-          <p class="auth-sub">${state.lang === 'en' ? 'Sign in with Google or your email to view your farm orders, live delivery tracking, and saved address.' : 'अपने ताज़ा ऑर्डर और लाइव ट्रैकिंग देखने के लिए Google या ईमेल से साइन इन करें।'}</p>
+          <p class="auth-sub">${state.lang === 'en' ? 'Sign in with your mobile number to view farm-to-door orders, morning delivery tracking, and saved address.' : 'ऑर्डर ट्रैकिंग व पते के लिए अपने मोबाइल नंबर से साइन इन करें।'}</p>
           <div style="margin-top:16px; display:flex; flex-direction:column; gap:10px;">
-            <button class="btn-google-auth" id="btn-profile-google-login">
-              <span class="google-icon-wrapper">${icon('google', 20)}</span>
-              <span>${t('continueWithGoogle')}</span>
-              <span class="google-verified-tag">1-Tap Fast</span>
+            <button class="btn-otp-action" id="btn-profile-open-login">
+              ${icon('phone', 16)}
+              <span>${state.lang === 'en' ? 'Sign In with Mobile & OTP' : 'मोबाइल और OTP से साइन इन करें'}</span>
             </button>
             <button class="btn-auth-primary" id="btn-profile-open-login" style="height:44px; font-size:14px;">
               ${icon('logIn', 16)} ${t('loginSubmitBtn')} / ${t('signUpSubmitBtn')}
@@ -1140,9 +1146,10 @@ function renderProfileScreen() {
         <div style="flex:1;">
           <div style="display:flex; align-items:center; gap:6px;">
             <h2 style="font-family:var(--font-serif); font-size:19px; color:var(--forest-dark); margin:0;">${user.name}</h2>
-            ${user.provider === 'google' ? `
-              <span title="Verified with Google OAuth 2.0" style="display:inline-flex;">${icon('google', 16)}</span>
-            ` : ''}
+            
+            <div style="display:inline-flex; align-items:center; gap:5px; background:#EAF5EA; color:var(--forest); font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:12px; margin-top:6px; border:1px solid #C8E6C9;">
+              ${icon('check', 11)} ${state.lang === 'en' ? 'Verified Mobile OTP & Aadhaar KYC' : 'सत्यापित मोबाइल व आधार eKYC'}
+            </div>
           </div>
           <div style="font-size:12px; color:var(--ink-soft); margin-top:2px;">
             ${user.email}
@@ -1152,11 +1159,10 @@ function renderProfileScreen() {
             <span>· ${user.address ? user.address.split(',')[0] : 'Sunrise Enclave'}</span>
           </div>
 
-          ${user.provider === 'google' ? `
-            <div style="display:inline-flex; align-items:center; gap:5px; background:#E8F0FE; color:#1A73E8; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:12px; margin-top:6px; border:1px solid #D2E3FC;">
-              ${icon('check', 11)} ${t('googleVerifiedAccount')}
+          
+            <div style="display:inline-flex; align-items:center; gap:5px; background:#EAF5EA; color:var(--forest); font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:12px; margin-top:6px; border:1px solid #C8E6C9;">
+              ${icon('check', 11)} ${state.lang === 'en' ? 'Verified Mobile OTP & Aadhaar KYC' : 'सत्यापित मोबाइल व आधार eKYC'}
             </div>
-          ` : ''}
         </div>
       </div>
 
@@ -1995,139 +2001,46 @@ function renderReportIssueModal() {
   `;
 }
 
-// Render Interactive Google OAuth Modal (Official Style Guidelines)
-function renderGoogleOAuthModal() {
-  if (!state.isGoogleModalOpen) return '';
+// Mobile OTP & Persona Login Execution
+function executeOtpLogin(userObj) {
+  state.currentUser = {
+    ...userObj,
+    provider: 'phone',
+    isVerified: true
+  };
 
-  return `
-    <div class="google-oauth-backdrop" id="google-modal-backdrop">
-      <div class="google-oauth-modal" id="google-oauth-dialog" role="dialog" aria-modal="true">
-        <!-- Close Button -->
-        <button class="google-oauth-close" id="btn-close-google-modal" aria-label="Close Google sign-in">
-          ${icon('close', 18)}
-        </button>
+  // Sync role view with selected user
+  if (userObj.role === 'farmer') {
+    state.role = 'farmer';
+  } else if (userObj.role === 'rider') {
+    state.role = 'rider';
+  } else {
+    state.role = 'consumer';
+  }
 
-        ${state.isGoogleLoading ? `
-          <!-- Loading & Verification State -->
-          <div class="google-oauth-loading">
-            <div class="google-spinner"></div>
-            <div>
-              <div style="font-size:16px; font-weight:600; color:#202124; margin-bottom:4px;">
-                Connecting to Google Identity Services...
-              </div>
-              <div style="font-size:12px; color:#5F6368;">
-                ${state.googleLoadingStep || 'Verifying OAuth 2.0 Identity Token & Keystore Session...'}
-              </div>
-            </div>
-            <div style="display:flex; align-items:center; gap:6px; font-size:11px; color:#1A73E8; background:#E8F0FE; padding:6px 12px; border-radius:16px;">
-              ${icon('shieldCheck', 14)} Hardware-backed Keystore Encryption Active
-            </div>
-          </div>
-        ` : `
-          <!-- Header -->
-          <div class="google-oauth-header">
-            <div class="google-modal-logo">
-              ${icon('google', 32)}
-            </div>
-            <h2 class="google-oauth-title">Sign in with Google</h2>
-            <p class="google-oauth-sub">Choose an account to continue to <strong>Freshcart Farm Direct</strong></p>
-          </div>
+  // Add session
+  const newSession = {
+    id: 'sess-otp-' + Date.now(),
+    device: 'Mobile Smartphone',
+    os: 'Android 14 • Mobile Web',
+    location: 'Gurugram, India',
+    ip: '49.36.128.42 (Masked)',
+    isCurrent: true,
+    lastActive: 'Active now'
+  };
+  state.sessions.unshift(newSession);
 
-          <!-- Accounts List -->
-          <div class="google-accounts-list">
-            ${state.users.map(u => `
-              <div class="google-account-row" data-google-user-id="${u.id}">
-                <img src="${u.avatar}" alt="${u.name}" class="google-account-avatar" />
-                <div class="google-account-info">
-                  <div class="google-account-name">${u.name}</div>
-                  <div class="google-account-email">${u.email}</div>
-                </div>
-                ${icon('chevronRight', 16, 'style="color:#5F6368;"')}
-              </div>
-            `).join('')}
+  recordAuditLog(
+    'AUTH_OTP_SUCCESS',
+    userObj.name,
+    userObj.phone,
+    'info',
+    'Mobile OTP login verified for ' + userObj.name + ' (' + userObj.role + '). DPDP 2023 session issued.'
+  );
 
-            <!-- Use Another Account Option -->
-            <div class="google-account-row" id="btn-google-custom-account">
-              <div style="width:40px; height:40px; border-radius:50%; background:#F1F3F4; display:flex; align-items:center; justify-content:center; color:#5F6368;">
-                ${icon('userPlus', 18)}
-              </div>
-              <div class="google-account-info">
-                <div class="google-account-name">Use another Google account</div>
-                <div class="google-account-email">Sign in with custom Google ID</div>
-              </div>
-              ${icon('chevronRight', 16, 'style="color:#5F6368;"')}
-            </div>
-
-            ${state.customGoogleInputOpen ? `
-              <div style="padding:10px 14px; background:#FAF8F2; border-radius:12px; margin-top:8px; border:1px solid var(--line);">
-                <div style="font-size:12px; font-weight:600; color:var(--forest-dark); margin-bottom:6px;">Enter Google Account details:</div>
-                <input type="text" id="custom-google-name" class="auth-input" placeholder="Your Name (e.g. Sanya Gupta)" style="margin-bottom:6px; height:36px; padding-left:10px;" />
-                <input type="email" id="custom-google-email" class="auth-input" placeholder="sanya.gupta@gmail.com" style="margin-bottom:8px; height:36px; padding-left:10px;" />
-                <button class="btn-auth-primary" id="btn-submit-custom-google" style="height:38px; font-size:13px;">
-                  Continue with this Google Account
-                </button>
-              </div>
-            ` : ''}
-          </div>
-
-          <!-- Google Scope Disclosure & Footer -->
-          <div class="google-oauth-footer">
-            To continue, Google will share your name, email address, language preference, and profile picture with Freshcart. See Freshcart's <a href="#" onclick="return false;">Privacy Policy</a> and <a href="#" onclick="return false;">Terms of Service</a>.
-          </div>
-        `}
-      </div>
-    </div>
-  `;
-}
-
-// Authentication Execution Functions
-function executeGoogleLogin(userObj) {
-  state.isGoogleLoading = true;
-  state.googleLoadingStep = `Authenticating ${userObj.email}...`;
+  state.currentTab = state.authReturnTab || 'home';
+  showToast(state.lang === 'en' ? '✓ Switched to ' + userObj.name + ' (' + userObj.role + ')!' : '✓ ' + userObj.name + ' के रूप में लॉग इन किया!');
   renderApp();
-
-  setTimeout(() => {
-    state.googleLoadingStep = 'Securing session in Android Hardware Keystore...';
-    renderApp();
-
-    setTimeout(() => {
-      state.currentUser = {
-        ...userObj,
-        provider: 'google',
-        isVerified: true
-      };
-
-      // Add to session list
-      const newSession = {
-        id: `sess-google-${Date.now()}`,
-        device: 'Google Pixel 8 Pro',
-        os: 'Android 14 · Google GIS OAuth 2.0',
-        location: 'Gurugram, India',
-        ip: '49.36.128.42 (Masked)',
-        isCurrent: true,
-        lastActive: 'Active now'
-      };
-      state.sessions.unshift(newSession);
-
-      // Add immutable security audit log
-      recordAuditLog(
-        'AUTH_GOOGLE_SUCCESS',
-        userObj.name,
-        userObj.email,
-        'info',
-        `Google OAuth 2.0 token verified. Issued 15-minute JWT, refresh token encrypted in Hardware Keystore (DPDP Act Sec 5).`
-      );
-
-      state.isGoogleLoading = false;
-      state.isGoogleModalOpen = false;
-      state.customGoogleInputOpen = false;
-      
-      // Navigate to previous tab or home
-      state.currentTab = state.authReturnTab || 'home';
-      showToast(state.lang === 'en' ? `✓ Signed in as ${userObj.name} with Google!` : `✓ Google द्वारा ${userObj.name} के रूप में सफलतापूर्वक साइन इन किया गया!`);
-      renderApp();
-    }, 450);
-  }, 400);
 }
 
 function executeStandardLogin(emailOrPhone) {
@@ -2336,7 +2249,6 @@ function renderApp() {
           ${renderAddHarvestModal()}
           ${renderReportIssueModal()}
           ${renderKycPreviewModal()}
-          ${renderGoogleOAuthModal()}
         </div>
       </div>
     </div>
@@ -2917,7 +2829,7 @@ function bindEvents() {
   });
 
   // =========================================================================
-  // Authentication & Google Sign-In Event Handlers
+  // Authentication & Mobile OTP Sign-In Event Handlers
   // =========================================================================
   
   // Open Auth Page from Header / Top Toolbar
@@ -3019,72 +2931,15 @@ function bindEvents() {
     showToast(state.lang === 'en' ? '✓ Password reset OTP sent to your registered contact!' : '✓ आपके पंजीकृत संपर्क पर पासवर्ड रीसेट OTP भेजा गया!');
   });
 
-  // Google Sign-In Actions
-  const openGoogleModal = () => {
-    state.isGoogleModalOpen = true;
-    state.isGoogleLoading = false;
-    state.customGoogleInputOpen = false;
-    renderApp();
-  };
-
-  document.querySelector('#btn-google-signin-action')?.addEventListener('click', openGoogleModal);
-  document.querySelector('#btn-profile-google-login')?.addEventListener('click', openGoogleModal);
-
-  // Close Google Modal
-  document.querySelector('#btn-close-google-modal')?.addEventListener('click', () => {
-    state.isGoogleModalOpen = false;
-    state.isGoogleLoading = false;
-    renderApp();
-  });
-
-  document.querySelector('#google-modal-backdrop')?.addEventListener('click', (e) => {
-    if (e.target.id === 'google-modal-backdrop') {
-      state.isGoogleModalOpen = false;
-      state.isGoogleLoading = false;
-      renderApp();
-    }
-  });
-
-  // Select Registered Google Account
-  document.querySelectorAll('[data-google-user-id]').forEach(row => {
-    row.addEventListener('click', () => {
-      const uId = row.dataset.googleUserId;
+  // 1-Tap Demo Persona Switcher Event Handlers
+  document.querySelectorAll('[data-switch-persona]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const uId = btn.dataset.switchPersona;
       const found = state.users.find(u => u.id === uId);
       if (found) {
-        executeGoogleLogin(found);
+        executeOtpLogin(found);
       }
     });
-  });
-
-  // Use Another Google Account Toggle
-  document.querySelector('#btn-google-custom-account')?.addEventListener('click', () => {
-    state.customGoogleInputOpen = !state.customGoogleInputOpen;
-    renderApp();
-  });
-
-  // Submit Custom Google Account
-  document.querySelector('#btn-submit-custom-google')?.addEventListener('click', () => {
-    const name = document.querySelector('#custom-google-name')?.value.trim() || 'Google User';
-    const email = document.querySelector('#custom-google-email')?.value.trim();
-
-    if (!email || !email.includes('@')) {
-      showToast('Please enter a valid Google email address.');
-      return;
-    }
-
-    const customUser = {
-      id: `usr-google-${Date.now()}`,
-      name,
-      email,
-      phone: '+91 98112 00000',
-      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&h=120&q=80',
-      address: 'Sunrise Enclave, Sector 14, Gurugram',
-      role: 'consumer',
-      provider: 'google',
-      isVerified: true
-    };
-    state.users.unshift(customUser);
-    executeGoogleLogin(customUser);
   });
 
   // Profile Screen Sign In / Switch / Sign Out Actions

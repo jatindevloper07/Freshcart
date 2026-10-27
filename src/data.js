@@ -41,7 +41,7 @@ export const INITIAL_USERS = [
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80',
     address: 'Flat A-402, Sunrise Enclave, Sector 14, Gurugram',
     role: 'consumer',
-    provider: 'google',
+    provider: 'phone',
     isVerified: true
   },
   {
@@ -52,7 +52,7 @@ export const INITIAL_USERS = [
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80',
     address: 'B-12, Palm Grove, DLF Phase 1, Gurugram',
     role: 'consumer',
-    provider: 'google',
+    provider: 'phone',
     isVerified: true
   },
   {
@@ -71,7 +71,7 @@ export const INITIAL_USERS = [
 export const INITIAL_SESSIONS = [
   {
     id: 'sess-current',
-    device: 'Google Pixel 8 Pro',
+    device: 'Samsung Galaxy / OnePlus',
     os: 'Android 14 · Chrome Mobile',
     location: 'Gurugram, India',
     ip: '49.36.128.42 (Masked)',
@@ -442,7 +442,7 @@ export const I18N = {
     authTitleRegister: 'Create Freshcart Account',
     authSubLogin: 'Access 100% farm-traceable fresh harvest delivered at dawn',
     authSubRegister: 'Connect directly with local vegetable farmers at transparent prices',
-    continueWithGoogle: 'Continue with Google',
+    continueWithOtp: 'Fast 1-Tap OTP Login',
     orContinueWith: 'or continue with phone / email',
     emailOrPhoneLabel: 'Email or Mobile Number (+91)',
     passwordLabel: 'Password',
@@ -462,8 +462,8 @@ export const I18N = {
     roleConsumerOption: '🥬 Household Vegetable Buyer',
     roleFarmerOption: '🌾 Local Organic Farmer',
     dpdpAuthConsent: 'I consent to DPDP Act 2023 compliant data handling for farm deliveries',
-    oneTapGoogle: 'Fast & Secure 1-Tap Google Sign-In',
-    googleVerifiedAccount: 'Verified with Google Identity',
+    fastDemoLogin: '1-Tap Fast Persona Switcher',
+    phoneVerifiedAccount: 'Verified Mobile & Aadhaar eKYC',
     signOutBtn: 'Sign Out / Switch Account'
   },
   hi: {
@@ -550,7 +550,7 @@ export const I18N = {
     authTitleRegister: 'नया फ़्रेशकार्ट खाता बनाएं',
     authSubLogin: 'खेत से सीधी ताज़ा डिलीवरी प्राप्त करने के लिए जुड़े',
     authSubRegister: 'प्रमाणित स्थानीय किसानों से सीधे जुड़ने के लिए पंजीकरण करें',
-    continueWithGoogle: 'Google के साथ आगे बढ़ें',
+    continueWithOtp: '1-टैप OTP से लॉगिन करें',
     orContinueWith: 'या फोन व ईमेल द्वारा',
     emailOrPhoneLabel: 'ईमेल या मोबाइल नंबर (+91)',
     passwordLabel: 'पासवर्ड',
@@ -570,8 +570,8 @@ export const I18N = {
     roleConsumerOption: '🥬 ताज़ी सब्ज़ी खरीदार (उपभोक्ता)',
     roleFarmerOption: '🌾 स्थानीय जैविक किसान',
     dpdpAuthConsent: 'मैं खेत डिलीवरी के लिए डीपीडीपी 2023 गोपनीयता शर्तों से सहमत हूँ',
-    oneTapGoogle: 'सुरक्षित 1-क्लिक Google साइन-इन',
-    googleVerifiedAccount: 'Google पहचान द्वारा सत्यापित',
+    fastDemoLogin: '1-टैप डेमो प्रोफाइल चुनें',
+    phoneVerifiedAccount: 'सत्यापित मोबाइल व OTP द्वारा',
     signOutBtn: 'लॉगआउट व खाता बदलें'
   }
 };

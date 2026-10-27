@@ -2252,7 +2252,7 @@ body {
 }
 
 /* ==========================================================================
-   Authentication & Google Sign-In Styles (Sign In / Login / Register)
+   Authentication & Mobile OTP Sign-In Styles (Sign In / Login / Register)
    ========================================================================== */
 
 .auth-screen-view {
@@ -2358,56 +2358,113 @@ body {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Google Sign-In Button */
-.btn-google-auth {
+/* Fast OTP & Demo Persona Buttons */
+.btn-otp-action {
   width: 100%;
   height: 48px;
-  background: #FFFFFF;
-  border: 1px solid #DADCE0;
+  background: linear-gradient(135deg, var(--forest), var(--forest-dark));
+  border: 1px solid var(--forest);
   border-radius: var(--radius-md);
-  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08), 0 1px 2px rgba(60, 64, 67, 0.06);
+  box-shadow: 0 4px 14px rgba(31, 59, 44, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   font-family: var(--font-sans);
   font-size: 14.5px;
-  font-weight: 600;
-  color: #3C4043;
+  font-weight: 700;
+  color: #FFFFFF;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
 }
-
-.btn-google-auth:hover {
-  background: #F8FAFD;
-  border-color: #C2D7EF;
-  box-shadow: 0 4px 12px rgba(60, 64, 67, 0.12);
+.btn-otp-action:hover {
+  box-shadow: 0 6px 18px rgba(31, 59, 44, 0.3);
   transform: translateY(-1px);
+  background: linear-gradient(135deg, #264735, #162c1f);
 }
-
-.btn-google-auth:active {
-  transform: translateY(0) scale(0.99);
-  background: #F1F3F4;
+.btn-otp-action:active {
+  transform: translateY(0);
 }
-
-.google-icon-wrapper {
+.otp-instant-badge {
+  font-size: 10px;
+  color: #FFFFFF;
+  font-weight: 800;
+  background: var(--harvest-orange);
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+}
+.auth-demo-personas {
+  background: #FFFFFF;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.auth-demo-title {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-}
-
-.google-verified-tag {
-  font-size: 10px;
-  color: #1A73E8;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--forest-dark);
   font-weight: 700;
-  background: #E8F0FE;
-  padding: 2px 6px;
+  margin-bottom: 8px;
+}
+.persona-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.persona-card-btn {
+  background: #FAF8F2;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: center;
+}
+.persona-card-btn:hover, .persona-card-btn.active {
+  background: #FFFFFF;
+  border-color: var(--forest);
+  box-shadow: 0 4px 10px rgba(31, 59, 44, 0.12);
+  transform: translateY(-1px);
+}
+.persona-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--forest-tint);
+}
+.persona-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.persona-role-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 5px;
   border-radius: 4px;
-  margin-left: 4px;
+  line-height: 1.2;
+}
+.persona-role-tag.consumer {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+.persona-role-tag.farmer {
+  background: #FFF3E0;
+  color: #E65100;
+}
+.persona-role-tag.rider {
+  background: #E3F2FD;
+  color: #1565C0;
 }
 
 /* Auth Divider */
@@ -2710,175 +2767,7 @@ body {
   color: var(--harvest-orange);
 }
 
-/* Google OAuth Modal Styles */
-.google-oauth-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(18, 37, 26, 0.65);
-  backdrop-filter: blur(8px);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  animation: fadeIn 0.2s ease-out;
-}
-
-.google-oauth-modal {
-  background: #FFFFFF;
-  width: 100%;
-  max-width: 420px;
-  border-radius: 20px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-  border: 1px solid rgba(218, 220, 224, 0.8);
-  animation: modalScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.google-oauth-header {
-  padding: 24px 24px 16px;
-  text-align: center;
-  border-bottom: 1px solid #F1F3F4;
-  position: relative;
-}
-
-.google-oauth-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  color: #5F6368;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.google-oauth-close:hover {
-  background: #F1F3F4;
-  color: #202124;
-}
-
-.google-modal-logo {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.google-oauth-title {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  color: #202124;
-  margin-bottom: 4px;
-}
-
-.google-oauth-sub {
-  font-size: 13px;
-  color: #5F6368;
-  line-height: 1.4;
-}
-
-.google-oauth-sub strong {
-  color: var(--forest-dark);
-}
-
-.google-accounts-list {
-  padding: 8px 16px;
-  display: flex;
-  flex-direction: column;
-}
-
-.google-account-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  border: 1px solid transparent;
-}
-
-.google-account-row:hover {
-  background: #F8F9FA;
-  border-color: #DADCE0;
-}
-
-.google-account-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid #E8EAED;
-  flex-shrink: 0;
-}
-
-.google-account-info {
-  flex: 1;
-  min-width: 0;
-  text-align: left;
-}
-
-.google-account-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #202124;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.google-account-email {
-  font-size: 12px;
-  color: #5F6368;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.google-oauth-footer {
-  padding: 16px 24px;
-  background: #F8F9FA;
-  border-top: 1px solid #ECEFF1;
-  font-size: 11px;
-  color: #5F6368;
-  line-height: 1.45;
-  text-align: left;
-}
-
-.google-oauth-footer a {
-  color: #1A73E8;
-  text-decoration: none;
-}
-
-/* Google OAuth Loading State */
-.google-oauth-loading {
-  padding: 40px 24px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-
-.google-spinner {
-  width: 44px;
-  height: 44px;
-  border: 3.5px solid #E8EAED;
-  border-top-color: #4285F4;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+/* Mobile Auth Verification Complete */
 
 /* User pill in Consumer Header */
 .header-auth-pill {
@@ -2910,13 +2799,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-.header-auth-pill .google-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #34A853;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
-}
+
 
 /* User pill in Prototype Top Bar */
 .proto-user-btn {
