@@ -37,6 +37,12 @@ const state = {
   isPasswordVisible: false,
   authPhone: '+91 98765 43210',
   isOtpSent: false,
+  authConsumerStep: 'phone', // 'phone' | 'otp' | 'address'
+  consumerPhoneInput: '9876543210',
+  consumerOtpDigits: ['8', '4', '9', '2', '0', '1'],
+  consumerOtpTimer: 28,
+  consumerAddressFlat: 'Flat A-402, Sunrise Enclave',
+  consumerAddressTag: 'Home',
 
   // Cart: { productId: quantity }
   cart: {
@@ -886,46 +892,224 @@ function renderBrowseScreen() {
   `;
 }
 
-// Render Authentication Screen (Sign In / Login / Register)
+// Render Dedicated Consumer Login & Onboarding Screen (PRD FR-1.1 & FR-1.2)
 function renderAuthScreen() {
-  const isLogin = state.authMode === 'login';
+  const step = state.authConsumerStep || 'phone';
   const u = state.currentUser || state.users[0];
-  
+
   return `
-    <div class="auth-screen-view">
-      <!-- Back Navigation Header -->
-      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2px;">
-        <button class="proto-btn" id="btn-auth-back" style="padding:6px 12px; font-size:12px; gap:6px;">
-          ${icon('arrowLeft', 14)} ${state.lang === 'en' ? 'Back' : 'वापस'}
+    <div class="consumer-login-page">
+      <!-- Top Navigation & Utility Bar -->
+      <div class="consumer-login-topbar">
+        <button class="proto-btn" id="btn-consumer-auth-back" style="padding:6px 12px; font-size:12px; gap:6px;">
+          ${icon('arrowLeft', 14)} ${state.lang === 'en' ? 'Back to Market' : 'वापस जाएं'}
         </button>
-        <span style="font-size:11px; color:var(--ink-soft); font-weight:600; display:flex; align-items:center; gap:4px;">
-          ${icon('shieldCheck', 13)} 256-Bit SSL · Keystore Active
-        </span>
-      </div>
 
-      <!-- Hero Branding Card -->
-      <div class="auth-header-card">
-        <div class="auth-brand-badge">
-          ${icon('leaf', 12)} Farm-to-Door Transparency
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="proto-btn" id="btn-consumer-lang-toggle" title="Switch Language" style="padding:6px 10px; font-size:11.5px;">
+            🌐 ${state.lang === 'en' ? 'हिंदी' : 'English'}
+          </button>
+          <button class="proto-btn" id="btn-consumer-skip" style="padding:6px 10px; font-size:11.5px; color:var(--harvest-orange); font-weight:700;">
+            ${t('skipLoginBtn')} →
+          </button>
         </div>
-        <h1 class="auth-title">${isLogin ? t('authTitleLogin') : t('authTitleRegister')}</h1>
-        <p class="auth-sub">${isLogin ? t('authSubLogin') : t('authSubRegister')}</p>
       </div>
 
-      <!-- Segmented Mode Switcher (Log In vs Sign Up) -->
-      <div class="auth-tab-switcher">
-        <button class="auth-tab-btn ${isLogin ? 'active' : ''}" id="btn-auth-tab-login" type="button">
-          ${icon('logIn', 14)} ${state.lang === 'en' ? 'Log In' : 'लॉग इन'}
-        </button>
-        <button class="auth-tab-btn ${!isLogin ? 'active' : ''}" id="btn-auth-tab-register" type="button">
-          ${icon('userPlus', 14)} ${state.lang === 'en' ? 'Sign Up' : 'साइन अप'}
-        </button>
+      <!-- Farm-to-Door Hero Header Card -->
+      <div class="consumer-login-hero">
+        <div class="consumer-brand-pill">
+          ${icon('leaf', 12)} FreshCart Farm-to-Door
+        </div>
+        <h1 class="consumer-hero-title">
+          ${t('consumerLoginTitle')}
+        </h1>
+        <p class="consumer-hero-sub">
+          ${t('consumerLoginSub')}
+        </p>
+
+        <!-- Trust Badges -->
+        <div class="consumer-trust-pills">
+          <span class="consumer-trust-pill">
+            🌿 ${state.lang === 'en' ? 'Harvested 6 AM Today' : 'आज सुबह 6 बजे की तुड़ाई'}
+          </span>
+          <span class="consumer-trust-pill">
+            🚜 ${state.lang === 'en' ? 'Direct from Verified Farmers' : 'सीधे सत्यापित किसानों से'}
+          </span>
+          <span class="consumer-trust-pill">
+            ⚡ ${state.lang === 'en' ? 'Under 90 Mins Delivery' : '90 मिनट में डिलीवरी'}
+          </span>
+        </div>
       </div>
 
-      <!-- 1-Tap Fast Persona Switcher (PRD Target Users) -->
-      <div class="auth-demo-personas">
+      <!-- Multi-Step Consumer Auth Card -->
+      <div class="consumer-card">
+        ${step === 'phone' ? `
+          <!-- STEP 1: MOBILE PHONE NUMBER -->
+          <div class="consumer-step-indicator">
+            <span>${state.lang === 'en' ? 'Step 1 of 3 • Mobile Verification' : 'चरण 1 / 3 • मोबाइल सत्यापन'}</span>
+            <span style="color:var(--ink-soft); font-weight:500;">FR-1.1 PRD</span>
+          </div>
+
+          <label style="font-size:13px; font-weight:700; color:var(--forest-dark); display:block; margin-bottom:8px;">
+            ${t('enterMobileLabel')}
+          </label>
+
+          <div class="consumer-phone-group">
+            <div class="country-code-pill">
+              <span>🇮🇳</span>
+              <span>+91</span>
+            </div>
+            <input 
+              type="tel" 
+              id="input-consumer-phone" 
+              class="consumer-phone-input" 
+              placeholder="98765 43210" 
+              maxlength="10" 
+              value="${state.consumerPhoneInput || '9876543210'}" 
+            />
+          </div>
+
+          <!-- Quick 1-Tap Fill for Evaluators -->
+          <button type="button" class="quick-helper-btn" id="btn-fill-priya-phone">
+            ⚡ ${state.lang === 'en' ? "1-Tap Fill Priya's Number (Consumer Demo)" : 'प्रिया का नंबर भरें (+91 98765 43210)'}
+          </button>
+
+          <!-- Primary CTA Button -->
+          <button class="btn-otp-action" id="btn-consumer-send-otp">
+            <span>${t('sendOtpBtn')}</span>
+            ${icon('chevronRight', 16)}
+          </button>
+
+          <!-- DPDP 2023 Trust Seal -->
+          <div style="font-size:11px; color:var(--ink-muted); text-align:center; margin-top:12px; line-height:1.4; display:flex; align-items:center; justify-content:center; gap:6px;">
+            ${icon('shieldCheck', 14)}
+            <span>${t('dpdpProtectionNotice')}</span>
+          </div>
+
+        ` : step === 'otp' ? `
+          <!-- STEP 2: 6-DIGIT OTP VERIFICATION -->
+          <div class="consumer-step-indicator">
+            <span>${state.lang === 'en' ? 'Step 2 of 3 • Enter 6-Digit Code' : 'चरण 2 / 3 • OTP दर्ज करें'}</span>
+            <button id="btn-consumer-change-phone" style="background:none; border:none; color:var(--forest); font-weight:700; font-size:11.5px; cursor:pointer;">
+              ✏️ ${t('changeNumberBtn')}
+            </button>
+          </div>
+
+          <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;">
+            ${t('otpSentTo')} <strong style="color:var(--forest-dark);">+91 ${state.consumerPhoneInput || '98765 43210'}</strong>
+          </div>
+
+          <!-- 6 OTP Boxes -->
+          <div class="otp-boxes-grid">
+            ${state.consumerOtpDigits.map((digit, idx) => `
+              <input 
+                type="text" 
+                maxlength="1" 
+                inputmode="numeric" 
+                class="otp-digit-box ${digit ? 'filled' : ''}" 
+                data-otp-idx="${idx}" 
+                value="${digit}" 
+              />
+            `).join('')}
+          </div>
+
+          <!-- 1-Tap Fill Demo OTP -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <button type="button" class="quick-helper-btn" id="btn-autofill-consumer-otp" style="margin:0;">
+              ⚡ ${t('autoFillOtp')}
+            </button>
+            <span style="font-size:11px; color:var(--ink-soft); font-weight:600;">
+              ⏱️ ${state.lang === 'en' ? 'Resend in 28s' : 'पुनः भेजें 28s'}
+            </span>
+          </div>
+
+          <!-- Resend Links -->
+          <div style="display:flex; gap:10px; margin-bottom:16px;">
+            <button type="button" class="proto-btn" id="btn-resend-sms" style="flex:1; justify-content:center; height:34px; font-size:11px;">
+              💬 ${t('resendOtpBtn')}
+            </button>
+            <button type="button" class="proto-btn" id="btn-resend-whatsapp" style="flex:1; justify-content:center; height:34px; font-size:11px; color:#128C7E;">
+              📲 ${t('resendWhatsAppBtn')}
+            </button>
+          </div>
+
+          <!-- Verify CTA -->
+          <button class="btn-otp-action" id="btn-consumer-verify-otp">
+            ${icon('check', 16)}
+            <span>${t('verifyOtpBtn')}</span>
+          </button>
+
+        ` : `
+          <!-- STEP 3: CONFIRM DELIVERY ADDRESS (FR-1.2) -->
+          <div class="consumer-step-indicator">
+            <span>${state.lang === 'en' ? 'Step 3 of 3 • Delivery Address' : 'चरण 3 / 3 • डिलीवरी का पता'}</span>
+            <span style="color:var(--forest); font-weight:700;">FR-1.2 PRD</span>
+          </div>
+
+          <h3 style="font-family:var(--font-serif); font-size:18px; color:var(--forest-dark); margin:0 0 4px 0;">
+            ${t('confirmLocationTitle')}
+          </h3>
+          <p style="font-size:12px; color:var(--ink-soft); margin:0 0 14px 0; line-height:1.4;">
+            ${t('confirmLocationSub')}
+          </p>
+
+          <!-- Auto-detected Geolocation Card -->
+          <div class="consumer-location-preview">
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <div style="background:var(--forest-tint); padding:6px; border-radius:50%; color:var(--forest);">
+                ${icon('mapPin', 16)}
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:13.5px; font-weight:700; color:var(--forest-dark);">
+                  Sunrise Enclave, Sector 14, Gurugram (122001)
+                </div>
+                <div style="font-size:11px; color:var(--soil); margin-top:2px;">
+                  📍 4.2 km from Patel Organic Farms • Dawn harvest slot: 7:00 AM – 9:00 AM
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <label style="font-size:12.5px; font-weight:700; color:var(--ink); display:block; margin-bottom:6px;">
+            ${state.lang === 'en' ? 'Flat / House / Tower Number' : 'मकान / फ्लैट नंबर'}
+          </label>
+          <input 
+            type="text" 
+            id="input-consumer-flat" 
+            class="consumer-phone-input" 
+            style="width:100%; margin-bottom:12px;" 
+            placeholder="${t('flatPlaceholder')}" 
+            value="${state.consumerAddressFlat || 'Flat A-402, Sunrise Enclave'}" 
+          />
+
+          <!-- Address Tag Selection -->
+          <label style="font-size:12px; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:4px;">
+            ${state.lang === 'en' ? 'Save address as:' : 'पते का प्रकार:'}
+          </label>
+          <div class="address-tag-pills">
+            <button type="button" class="address-tag-chip ${state.consumerAddressTag === 'Home' ? 'active' : ''}" data-address-tag="Home">
+              🏠 ${state.lang === 'en' ? 'Home' : 'घर'}
+            </button>
+            <button type="button" class="address-tag-chip ${state.consumerAddressTag === 'Work' ? 'active' : ''}" data-address-tag="Work">
+              🏢 ${state.lang === 'en' ? 'Work' : 'कार्यालय'}
+            </button>
+            <button type="button" class="address-tag-chip ${state.consumerAddressTag === 'Other' ? 'active' : ''}" data-address-tag="Other">
+              📍 ${state.lang === 'en' ? 'Other' : 'अन्य'}
+            </button>
+          </div>
+
+          <!-- Confirm Address CTA -->
+          <button class="btn-otp-action" id="btn-consumer-confirm-address">
+            ${icon('check', 16)}
+            <span>${t('confirmAddressBtn')}</span>
+          </button>
+        `}
+      </div>
+
+      <!-- Quick 1-Tap Demo Switcher (Instant Test for All Personas) -->
+      <div class="auth-demo-personas" style="margin-top:4px;">
         <div class="auth-demo-title">
-          ${icon('user', 13)} <span>${state.lang === 'en' ? '1-Tap Fast Switcher: Select Persona to Test' : '1-टैप त्वरित डेमो प्रोफाइल'}</span>
+          ${icon('user', 13)} <span>${t('quickPersonaTitle')}</span>
         </div>
         <div class="persona-chips-grid">
           <button type="button" class="persona-card-btn ${state.currentUser?.id === 'usr-1' ? 'active' : ''}" data-switch-persona="usr-1" title="Urban Consumer - Gurugram">
@@ -936,178 +1120,22 @@ function renderAuthScreen() {
           <button type="button" class="persona-card-btn ${state.currentUser?.id === 'usr-3' ? 'active' : ''}" data-switch-persona="usr-3" title="Smallholder Farmer - Najafgarh">
             <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&h=80&q=80" class="persona-avatar" alt="Ramesh" />
             <div class="persona-name">Ramesh Patel</div>
-            <span class="persona-role-tag farmer">${state.lang === 'en' ? 'Farmer' : 'किसान'}</span>
+            <span class="persona-role-tag farmer">${state.lang === 'en' ? 'Farmer Portal' : 'किसान'}</span>
           </button>
           <button type="button" class="persona-card-btn ${state.currentUser?.id === 'usr-2' ? 'active' : ''}" data-switch-persona="usr-2" title="Delivery Partner - Local Fleet">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&h=80&q=80" class="persona-avatar" alt="Aakash" />
-            <div class="persona-name">Dev / Aakash</div>
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&h=80&q=80" class="persona-avatar" alt="Dev" />
+            <div class="persona-name">Dev Singh</div>
             <span class="persona-role-tag rider">${state.lang === 'en' ? 'Delivery Fleet' : 'डिलीवरी'}</span>
           </button>
         </div>
       </div>
 
-      <!-- Divider -->
-      <div class="auth-divider">
-        <span>${state.lang === 'en' ? 'or login with mobile number & OTP' : 'या मोबाइल नंबर और OTP से लॉगिन करें'}</span>
-      </div>
-
-      <!-- Form Card -->
-      <form class="auth-form-card" id="auth-main-form" onsubmit="return false;">
-        ${!isLogin ? `
-          <!-- Full Name -->
-          <div class="auth-field">
-            <label for="auth-reg-name">${icon('user', 14)} ${t('fullNameLabel')}</label>
-            <div class="auth-input-wrapper">
-              <span class="auth-input-icon">${icon('user', 15)}</span>
-              <input type="text" id="auth-reg-name" class="auth-input" placeholder="e.g. Priya Sharma" required value="Priya Sharma" />
-            </div>
-          </div>
-
-          <!-- Email Address -->
-          <div class="auth-field">
-            <label for="auth-reg-email">${icon('mail', 14)} ${t('emailLabel')}</label>
-            <div class="auth-input-wrapper">
-              <span class="auth-input-icon">${icon('mail', 15)}</span>
-              <input type="email" id="auth-reg-email" class="auth-input" placeholder="priya.sharma@gmail.com" required value="priya.sharma@gmail.com" />
-            </div>
-          </div>
-
-          <!-- Phone Number -->
-          <div class="auth-field">
-            <label for="auth-reg-phone">${icon('phone', 14)} ${t('phoneLabel')}</label>
-            <div class="auth-input-wrapper">
-              <span class="auth-input-icon">${icon('phone', 15)}</span>
-              <input type="tel" id="auth-reg-phone" class="auth-input" placeholder="+91 98765 43210" required value="+91 98765 43210" />
-            </div>
-          </div>
-
-          <!-- Delivery Address -->
-          <div class="auth-field">
-            <label for="auth-reg-address">${icon('mapPin', 14)} ${t('addressLabel')}</label>
-            <div class="auth-input-wrapper">
-              <span class="auth-input-icon">${icon('mapPin', 15)}</span>
-              <input type="text" id="auth-reg-address" class="auth-input" placeholder="Flat A-402, Sunrise Enclave, Sector 14" required value="Flat A-402, Sunrise Enclave, Sector 14" />
-            </div>
-          </div>
-
-          <!-- Account Type (Consumer vs Farmer) -->
-          <div class="auth-field">
-            <label>${t('userTypeLabel')}</label>
-            <div class="auth-roles-grid">
-              <div class="auth-role-card ${state.regRole === 'consumer' ? 'selected' : ''}" id="reg-role-consumer">
-                <div class="auth-role-title">${t('roleConsumerOption')}</div>
-                <div class="auth-role-desc">${state.lang === 'en' ? 'Get crisp vegetables harvested this morning' : 'ताज़ा तोड़ी गई सब्ज़ियाँ प्राप्त करें'}</div>
-              </div>
-              <div class="auth-role-card ${state.regRole === 'farmer' ? 'selected' : ''}" id="reg-role-farmer">
-                <div class="auth-role-title">${t('roleFarmerOption')}</div>
-                <div class="auth-role-desc">${state.lang === 'en' ? 'Sell morning harvest directly with 0 middleman' : 'बिना बिचौलियों के सीधे फसल बेचें'}</div>
-              </div>
-            </div>
-          </div>
-        ` : `
-          <!-- Login Identifier (Email or Phone) -->
-          <div class="auth-field">
-            <label for="auth-login-id">${icon('mail', 14)} ${t('emailOrPhoneLabel')}</label>
-            <div class="auth-input-wrapper">
-              <span class="auth-input-icon">${icon('user', 15)}</span>
-              <input type="text" id="auth-login-id" class="auth-input" placeholder="priya.sharma@gmail.com or 9876543210" required value="${u.email}" />
-            </div>
-          </div>
-        `}
-
-        <!-- Password Field -->
-        <div class="auth-field">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <label for="auth-password">${icon('lock', 14)} ${t('passwordLabel')}</label>
-            ${isLogin ? `
-              <button type="button" class="auth-switch-link" id="btn-forgot-password" style="font-size:11px; text-decoration:none; background:none; border:none;">
-                ${t('forgotPasswordLabel')}
-              </button>
-            ` : ''}
-          </div>
-          <div class="auth-input-wrapper">
-            <span class="auth-input-icon">${icon('lock', 15)}</span>
-            <input 
-              type="${state.isPasswordVisible ? 'text' : 'password'}" 
-              id="auth-password" 
-              class="auth-input" 
-              placeholder="${isLogin ? 'Enter your password' : 'Create a secure password'}" 
-              required 
-              value="FreshCart@2026" 
-            />
-            <button type="button" class="auth-input-trailing-btn" id="btn-toggle-password-visibility" title="Show/Hide password">
-              ${icon(state.isPasswordVisible ? 'eyeOff' : 'eye', 16)}
-            </button>
-          </div>
-
-          ${!isLogin ? `
-            <!-- Live Password Strength Meter -->
-            <div class="password-meter-wrap">
-              <div class="password-meter-bars">
-                <div class="password-meter-bar active-strong"></div>
-                <div class="password-meter-bar active-strong"></div>
-                <div class="password-meter-bar active-strong"></div>
-              </div>
-              <div class="password-meter-label">
-                <span>Security: <strong>Strong (AES-256 Ready)</strong></span>
-                <span>8+ chars · 1 symbol · 1 number</span>
-              </div>
-            </div>
-          ` : ''}
-        </div>
-
-        ${isLogin ? `
-          <!-- Remember Me -->
-          <label class="auth-checkbox-label">
-            <input type="checkbox" id="auth-remember-me" ${state.rememberMe ? 'checked' : ''} />
-            <span>${t('rememberMeLabel')}</span>
-          </label>
-        ` : `
-          <!-- DPDP Act Consent -->
-          <label class="auth-checkbox-label">
-            <input type="checkbox" id="auth-dpdp-consent" checked required />
-            <span>${t('dpdpAuthConsent')}</span>
-          </label>
-        `}
-
-        <!-- Submit Button -->
-        <button class="btn-auth-primary" id="btn-auth-submit" type="submit">
-          ${isLogin ? icon('logIn', 18) : icon('check', 18)}
-          <span>${isLogin ? t('loginSubmitBtn') : t('signUpSubmitBtn')}</span>
+      <!-- Farmer Portal Direct Link -->
+      <div style="text-align:center; font-size:12px; color:var(--ink-soft); margin-top:2px;">
+        ${state.lang === 'en' ? 'Are you an organic farmer wanting to sell harvest?' : 'क्या आप सब्ज़ी किसान हैं और उपज बेचना चाहते हैं?'}
+        <button type="button" id="btn-consumer-switch-farmer" style="background:none; border:none; color:var(--forest); font-weight:700; text-decoration:underline; cursor:pointer; margin-left:4px;">
+          ${state.lang === 'en' ? 'Open Farmer Dashboard' : 'किसान पोर्टल खोलें'}
         </button>
-
-        ${isLogin ? `
-          <!-- 1-Tap Quick Demo Logins -->
-          <div class="auth-demo-box">
-            <div class="auth-demo-title">
-              ${icon('key', 13)} ${state.lang === 'en' ? 'Quick 1-Tap Demo Accounts' : '1-क्लिक डेमो खाते'}
-            </div>
-            <div class="auth-demo-chips">
-              <button type="button" class="auth-demo-chip" data-quick-user="usr-1">
-                <span>👤 Priya (Buyer)</span>
-              </button>
-              <button type="button" class="auth-demo-chip" data-quick-user="usr-2">
-                <span>👤 Aakash (Buyer)</span>
-              </button>
-              <button type="button" class="auth-demo-chip" data-quick-user="usr-3">
-                <span>🌾 Ramesh (Farmer)</span>
-              </button>
-            </div>
-          </div>
-        ` : ''}
-      </form>
-
-      <!-- Bottom Switcher Prompt -->
-      <div class="auth-switch-prompt">
-        <span>${isLogin ? t('switchRegisterPrompt') : t('switchLoginPrompt')}</span>
-        <button type="button" class="auth-switch-link" id="btn-auth-toggle-mode" style="background:none; border:none; font-family:inherit; font-size:inherit;">
-          ${isLogin ? t('switchRegisterAction') : t('switchLoginAction')}
-        </button>
-      </div>
-
-      <!-- Security / Privacy Footnote -->
-      <div style="text-align:center; font-size:10.5px; color:var(--ink-muted); line-height:1.45; padding-top:6px; border-top:1px dashed var(--line);">
-        <strong>DPDP Act 2023 Compliant</strong> · Encrypted session stored locally in Mumbai AWS data centers with purpose limitation.
       </div>
     </div>
   `;
@@ -2829,109 +2857,166 @@ function bindEvents() {
   });
 
   // =========================================================================
-  // Authentication & Mobile OTP Sign-In Event Handlers
+  // Dedicated Consumer Login Event Handlers (PRD FR-1.1 & FR-1.2)
   // =========================================================================
   
   // Open Auth Page from Header / Top Toolbar
   const openAuthScreen = () => {
     state.authReturnTab = state.currentTab === 'auth' ? 'home' : state.currentTab;
     state.currentTab = 'auth';
+    state.authConsumerStep = 'phone';
     renderApp();
   };
 
   document.querySelector('#header-auth-trigger')?.addEventListener('click', openAuthScreen);
   document.querySelector('#proto-auth-btn')?.addEventListener('click', openAuthScreen);
 
-  // Auth Screen Navigation & Back
-  document.querySelector('#btn-auth-back')?.addEventListener('click', () => {
+  // Back Button
+  document.querySelector('#btn-consumer-auth-back')?.addEventListener('click', () => {
     state.currentTab = state.authReturnTab || 'home';
     renderApp();
   });
 
-  // Auth Mode Switchers (Log In vs Register / Sign Up)
-  document.querySelector('#btn-auth-tab-login')?.addEventListener('click', () => {
-    state.authMode = 'login';
+  // Language Toggle on Login Page
+  document.querySelector('#btn-consumer-lang-toggle')?.addEventListener('click', () => {
+    state.lang = state.lang === 'en' ? 'hi' : 'en';
+    showToast(state.lang === 'en' ? 'Switched to English' : 'भाषा बदलकर हिंदी कर दी गई');
     renderApp();
   });
 
-  document.querySelector('#btn-auth-tab-register')?.addEventListener('click', () => {
-    state.authMode = 'register';
+  // Skip Login / Explore as Guest
+  document.querySelector('#btn-consumer-skip')?.addEventListener('click', () => {
+    state.currentTab = 'home';
+    showToast(state.lang === 'en' ? 'Browsing as Guest Buyer' : 'अतिथि खरीदार के रूप में देख रहे हैं');
     renderApp();
   });
 
-  document.querySelector('#btn-auth-toggle-mode')?.addEventListener('click', () => {
-    state.authMode = state.authMode === 'login' ? 'register' : 'login';
+  // Fill Priya's Demo Phone
+  document.querySelector('#btn-fill-priya-phone')?.addEventListener('click', () => {
+    state.consumerPhoneInput = '9876543210';
+    renderApp();
+    const phoneInput = document.querySelector('#input-consumer-phone');
+    if (phoneInput) phoneInput.focus();
+  });
+
+  // Phone Input Change
+  document.querySelector('#input-consumer-phone')?.addEventListener('input', (e) => {
+    state.consumerPhoneInput = e.target.value.replace(/\D/g, '');
+  });
+
+  // Step 1: Send OTP Button
+  document.querySelector('#btn-consumer-send-otp')?.addEventListener('click', () => {
+    const raw = (state.consumerPhoneInput || '').trim();
+    if (raw.length < 10) {
+      showToast(state.lang === 'en' ? 'Please enter a valid 10-digit mobile number' : 'कृपया मान्य 10-अंकीय मोबाइल नंबर दर्ज करें');
+      return;
+    }
+    state.authConsumerStep = 'otp';
+    state.consumerOtpDigits = ['8', '4', '9', '2', '0', '1'];
+    showToast(state.lang === 'en' ? '✓ 6-Digit OTP sent to +91 ' + raw : '✓ 6-अंकीय OTP भेजा गया: +91 ' + raw);
     renderApp();
   });
 
-  // Password Visibility Toggle
-  document.querySelector('#btn-toggle-password-visibility')?.addEventListener('click', () => {
-    state.isPasswordVisible = !state.isPasswordVisible;
-    renderApp();
-    const pw = document.querySelector('#auth-password');
-    if (pw) pw.focus();
-  });
-
-  // Role Selection on Registration (Consumer vs Farmer)
-  document.querySelector('#reg-role-consumer')?.addEventListener('click', () => {
-    state.regRole = 'consumer';
+  // Edit Phone Number (Back to Step 1)
+  document.querySelector('#btn-consumer-change-phone')?.addEventListener('click', () => {
+    state.authConsumerStep = 'phone';
     renderApp();
   });
 
-  document.querySelector('#reg-role-farmer')?.addEventListener('click', () => {
-    state.regRole = 'farmer';
+  // Auto-Fill Demo OTP
+  document.querySelector('#btn-autofill-consumer-otp')?.addEventListener('click', () => {
+    state.consumerOtpDigits = ['8', '4', '9', '2', '0', '1'];
     renderApp();
+    showToast(state.lang === 'en' ? '✓ Auto-filled demo verification code (849201)' : '✓ डेमो कोड भर दिया गया (849201)');
   });
 
-  // 1-Tap Quick Demo Users
-  document.querySelectorAll('[data-quick-user]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const uId = btn.dataset.quickUser;
-      const found = state.users.find(u => u.id === uId);
-      if (found) {
-        executeStandardLogin(found.email);
+  // OTP Digit Box Inputs (Auto-advance and Backspace)
+  document.querySelectorAll('[data-otp-idx]').forEach((input, index, allInputs) => {
+    input.addEventListener('input', (e) => {
+      const val = e.target.value.replace(/\D/g, '');
+      state.consumerOtpDigits[index] = val ? val[val.length - 1] : '';
+      if (val && index < allInputs.length - 1) {
+        allInputs[index + 1].focus();
+      }
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !input.value && index > 0) {
+        allInputs[index - 1].focus();
       }
     });
   });
 
-  // Auth Form Submission
-  const handleAuthSubmit = () => {
-    if (state.authMode === 'login') {
-      const loginIdInput = document.querySelector('#auth-login-id');
-      const val = loginIdInput ? loginIdInput.value.trim() : '';
-      if (!val) {
-        showToast('Please enter your email or mobile number.');
-        return;
-      }
-      executeStandardLogin(val);
-    } else {
-      const name = document.querySelector('#auth-reg-name')?.value.trim() || 'Freshcart User';
-      const email = document.querySelector('#auth-reg-email')?.value.trim() || 'user@freshcart.in';
-      const phone = document.querySelector('#auth-reg-phone')?.value.trim() || '+91 98765 00000';
-      const address = document.querySelector('#auth-reg-address')?.value.trim() || 'Sunrise Enclave, Sector 14';
-      const dpdpConsent = document.querySelector('#auth-dpdp-consent')?.checked;
+  // Resend OTP via SMS / WhatsApp
+  document.querySelector('#btn-resend-sms')?.addEventListener('click', () => {
+    showToast(state.lang === 'en' ? '✓ New OTP sent via SMS to registered mobile' : '✓ नया OTP SMS द्वारा भेजा गया');
+  });
 
-      if (!dpdpConsent) {
-        showToast('Please consent to DPDP Act 2023 terms to create an account.');
-        return;
-      }
+  document.querySelector('#btn-resend-whatsapp')?.addEventListener('click', () => {
+    showToast(state.lang === 'en' ? '✓ OTP sent to your WhatsApp number' : '✓ WhatsApp पर OTP भेजा गया');
+  });
 
-      executeRegistration(name, email, phone, address, state.regRole);
+  // Step 2: Verify OTP Button
+  document.querySelector('#btn-consumer-verify-otp')?.addEventListener('click', () => {
+    const code = state.consumerOtpDigits.join('');
+    if (code.length < 6) {
+      showToast(state.lang === 'en' ? 'Please enter the complete 6-digit OTP' : 'कृपया पूरा 6-अंकीय OTP दर्ज करें');
+      return;
     }
-  };
-
-  document.querySelector('#btn-auth-submit')?.addEventListener('click', handleAuthSubmit);
-  document.querySelector('#auth-main-form')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    handleAuthSubmit();
+    // Proceed to Step 3: Address Confirmation
+    state.authConsumerStep = 'address';
+    showToast(state.lang === 'en' ? '✓ Phone verified! Confirm delivery address' : '✓ फोन सत्यापित! डिलीवरी पता चुनें');
+    renderApp();
   });
 
-  // Forgot Password Action
-  document.querySelector('#btn-forgot-password')?.addEventListener('click', () => {
-    showToast(state.lang === 'en' ? '✓ Password reset OTP sent to your registered contact!' : '✓ आपके पंजीकृत संपर्क पर पासवर्ड रीसेट OTP भेजा गया!');
+  // Address Tag Chips
+  document.querySelectorAll('[data-address-tag]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.consumerAddressTag = btn.dataset.addressTag;
+      renderApp();
+    });
   });
 
-  // 1-Tap Demo Persona Switcher Event Handlers
+  // Flat Input Change
+  document.querySelector('#input-consumer-flat')?.addEventListener('input', (e) => {
+    state.consumerAddressFlat = e.target.value;
+  });
+
+  // Step 3: Confirm Address & Log In as Consumer
+  document.querySelector('#btn-consumer-confirm-address')?.addEventListener('click', () => {
+    const flat = state.consumerAddressFlat || 'Flat A-402, Sunrise Enclave';
+    
+    // Find or create Priya
+    let priya = state.users.find(u => u.id === 'usr-1');
+    if (!priya) {
+      priya = {
+        id: 'usr-1',
+        name: 'Priya Sharma',
+        phone: '+91 ' + (state.consumerPhoneInput || '9876543210'),
+        email: 'priya.sharma@gmail.com',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80',
+        address: flat + ', Sector 14, Gurugram',
+        role: 'consumer',
+        provider: 'phone',
+        isVerified: true
+      };
+      state.users.unshift(priya);
+    } else {
+      priya.address = flat + ', Sector 14, Gurugram';
+      priya.phone = '+91 ' + (state.consumerPhoneInput || '9876543210');
+    }
+
+    executeOtpLogin(priya);
+    showToast(state.lang === 'en' ? '✓ Welcome to FreshCart, Priya! Today harvest is ready' : '✓ फ़्रेशकार्ट में आपका स्वागत है, प्रिया! ताज़ा सब्ज़ियाँ उपलब्ध हैं');
+  });
+
+  // Farmer Portal Switch Link
+  document.querySelector('#btn-consumer-switch-farmer')?.addEventListener('click', () => {
+    const farmer = state.users.find(u => u.role === 'farmer') || state.users[2];
+    executeOtpLogin(farmer);
+  });
+
+  // 1-Tap Demo Switcher
   document.querySelectorAll('[data-switch-persona]').forEach(btn => {
     btn.addEventListener('click', () => {
       const uId = btn.dataset.switchPersona;

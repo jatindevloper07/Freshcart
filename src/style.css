@@ -2823,3 +2823,253 @@ body {
 }
 
 
+
+
+/* ==========================================================================
+   Dedicated Consumer Login & Onboarding Screen (PRD FR-1.1 & FR-1.2)
+   ========================================================================== */
+
+.consumer-login-page {
+  padding: 16px 16px 80px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeIn 0.25s ease-out;
+  min-height: 100%;
+}
+
+.consumer-login-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.consumer-login-hero {
+  background: linear-gradient(145deg, #1F3B2C 0%, #162C1F 100%);
+  border-radius: var(--radius-xl);
+  padding: 22px 18px;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(31, 59, 44, 0.25);
+}
+
+.consumer-login-hero::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(224, 138, 46, 0.35) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.consumer-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #F4D9A8;
+  margin-bottom: 10px;
+  border: 1px solid rgba(244, 217, 168, 0.3);
+}
+
+.consumer-hero-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #FFFFFF;
+  margin: 0 0 6px 0;
+}
+
+.consumer-hero-sub {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.45;
+  margin: 0 0 14px 0;
+}
+
+.consumer-trust-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.consumer-trust-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 4px 9px;
+  border-radius: var(--radius-sm);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #FAF8F2;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.consumer-card {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.consumer-step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--forest);
+}
+
+.consumer-phone-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.country-code-pill {
+  height: 48px;
+  background: #FAF8F2;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--forest-dark);
+  flex-shrink: 0;
+}
+
+.consumer-phone-input {
+  flex: 1;
+  height: 48px;
+  background: #FAF8F2;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--ink);
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.consumer-phone-input:focus {
+  background: #FFFFFF;
+  border-color: var(--forest);
+  box-shadow: 0 0 0 3px rgba(31, 59, 44, 0.12);
+}
+
+.otp-boxes-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin: 16px 0 14px 0;
+}
+
+.otp-digit-box {
+  height: 52px;
+  background: #FAF8F2;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--forest-dark);
+  font-family: var(--font-sans);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.otp-digit-box:focus {
+  background: #FFFFFF;
+  border-color: var(--forest);
+  box-shadow: 0 0 0 3px rgba(31, 59, 44, 0.15);
+  transform: scale(1.04);
+}
+
+.otp-digit-box.filled {
+  border-color: var(--forest);
+  background: #F4F8F5;
+}
+
+.quick-helper-btn {
+  background: #FFF9ED;
+  border: 1px solid #FFE4A0;
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 11.5px;
+  color: var(--soil);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  margin-bottom: 14px;
+}
+
+.quick-helper-btn:hover {
+  background: #FFF1D2;
+  border-color: #E08A2E;
+}
+
+.address-tag-pills {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0 16px 0;
+}
+
+.address-tag-chip {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line);
+  background: #FAF8F2;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.address-tag-chip.active {
+  background: #EAF5EA;
+  border-color: var(--forest);
+  color: var(--forest-dark);
+  font-weight: 700;
+}
+
+.consumer-location-preview {
+  background: #FAF8F2;
+  border: 1.5px dashed var(--forest-tint);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
