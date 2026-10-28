@@ -78,7 +78,7 @@ const state = {
     qty: 30,
     price: 35,
     unit: '500g bunch',
-    image: '/images/veg_spinach.jpg'
+    image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80'
   }
 };
 
@@ -182,7 +182,7 @@ function renderTopToolbar() {
   return `
     <div class="proto-top-bar">
       <div class="proto-brand">
-        <img src="/images/logo.jpg" alt="FreshCart" class="proto-brand-logo" />
+        <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=120&h=120&q=80" alt="FreshCart" class="proto-brand-logo" />
         <div>
           <div class="proto-brand-title">FreshCart</div>
           <div class="proto-brand-subtitle">${t('tagline')}</div>
@@ -480,7 +480,7 @@ function renderProductsGrid() {
           <div class="product-card" data-product-id="${prod.id}">
             <div class="product-card-thumb-wrap">
               <span class="discount-pill">${discountPct}% OFF</span>
-              <img src="${prod.image}" alt="${prod.name}" class="product-card-thumb" loading="lazy" />
+              <img src="${prod.image}" alt="${prod.name}" class="product-card-thumb" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'" />
               <div class="freshness-stamp ${isToday ? 'today' : 'yesterday'}">
                 ${icon('clock', 11)} ${isToday ? t('pickedToday') : t('pickedYesterday')}
               </div>
@@ -1539,7 +1539,7 @@ function renderFarmerDashboard() {
       <div class="farmer-head-card">
         <div class="farmer-head-top">
           <div style="display:flex; align-items:center; gap:10px;">
-            <img src="/images/farmer_ramesh.jpg" style="width:46px; height:46px; border-radius:50%; border:2px solid var(--harvest-soft); object-fit:cover;" />
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80" style="width:46px; height:46px; border-radius:50%; border:2px solid var(--harvest-soft); object-fit:cover;" />
             <div>
               <h2 style="font-family:var(--font-serif); font-size:18px;">Ramesh Patel</h2>
               <div style="font-size:11.5px; opacity:0.9;">Patel Organic Farms · Khed</div>
@@ -1665,7 +1665,7 @@ function renderProductDetailModal() {
         </button>
 
         <div class="product-detail-hero">
-          <img src="${prod.image}" alt="${prod.name}" />
+          <img src="${prod.image}" alt="${prod.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'" />
         </div>
 
         <div class="product-detail-body">
@@ -1917,11 +1917,11 @@ function renderAddHarvestModal() {
           </label>
           <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:16px;">
             ${[
-              { name: 'Desi Palak', unit: '500g bunch', cat: 'Leafy', img: '/images/veg_spinach.jpg' },
-              { name: 'Desi Tamatar', unit: '1 kg', cat: 'Nightshades', img: '/images/veg_tomatoes.jpg' },
-              { name: 'Desi Gajar', unit: '500g', cat: 'Roots', img: '/images/veg_carrots.jpg' },
-              { name: 'Tender Bhindi', unit: '500g', cat: 'Gourds', img: '/images/veg_okra.jpg' },
-              { name: 'Pahadi Aloo', unit: '1 kg', cat: 'Roots', img: '/images/veg_potatoes.jpg' }
+              { name: 'Desi Palak', unit: '500g bunch', cat: 'Leafy', img: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80' },
+              { name: 'Desi Tamatar', unit: '1 kg', cat: 'Nightshades', img: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80' },
+              { name: 'Desi Gajar', unit: '500g', cat: 'Roots', img: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=600&q=80' },
+              { name: 'Tender Bhindi', unit: '500g', cat: 'Gourds', img: 'https://images.unsplash.com/photo-1425543103986-22abb7d7e8d2?auto=format&fit=crop&w=600&q=80' },
+              { name: 'Pahadi Aloo', unit: '1 kg', cat: 'Roots', img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80' }
             ].map(veg => `
               <div 
                 class="slot-chip ${state.newHarvest.name === veg.name ? 'selected' : ''}" 
